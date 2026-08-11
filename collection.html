@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop All — Multiple Hustles LDN</title>
+<meta name="description" content="Shop the full Multiple Hustles LDN range. Limited-drop London streetwear.">
+<link rel="preload" href="assets/fonts/crimson-pro-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/barlow-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231a1a1a'/><text x='16' y='22' font-family='Georgia,serif' font-size='15' font-weight='700' fill='%23fffdfa' text-anchor='middle'>M</text></svg>">
+<meta property="og:title" content="Shop All — Multiple Hustles LDN">
+<meta property="og:description" content="Shop the full Multiple Hustles LDN range. Limited-drop London streetwear.">
+<meta property="og:type" content="website">
+<script type="module" src="assets/js/site.js"></script>
+<script type="module" src="assets/js/collection.js"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div data-site-header></div>
+
+<main id="main">
+
+  <section class="page-head">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="collections.html">Collections</a>
+        <span aria-hidden="true">/</span>
+        <span data-collection-crumb>Shop All</span>
+      </nav>
+      <div style="margin-top:var(--space-6)">
+        <p class="eyebrow">Collection</p>
+        <h1 class="page-head__title" data-collection-title>Shop All</h1>
+        <p class="lede page-head__text" data-collection-excerpt></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="toolbar">
+        <div class="filter-pills" data-filter-pills></div>
+        <div style="display:flex;align-items:center;gap:var(--space-4)">
+          <span class="eyebrow" data-product-count></span>
+          <span class="select-wrap">
+            <label class="visually-hidden" for="sort">Sort by</label>
+            <select id="sort" data-sort>
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="title-asc">A &ndash; Z</option>
+            </select>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="product-grid" data-product-grid></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="newsletter" data-reveal>
+        <p class="eyebrow">Sign up and save</p>
+        <h2 class="newsletter__title">Be first through the door</h2>
+        <p class="lede">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+        <form class="field-inline" data-newsletter novalidate>
+          <label class="visually-hidden" for="newsletter-email">Email address</label>
+          <input id="newsletter-email" type="email" name="email" placeholder="Enter your email" required autocomplete="email">
+          <button class="btn" type="submit">Subscribe</button>
+        </form>
+        <p class="form-note">No spam. Drop announcements and early access only.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div data-site-footer></div>
+</body>
+</html>
