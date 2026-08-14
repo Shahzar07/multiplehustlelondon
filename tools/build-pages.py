@@ -64,7 +64,7 @@ PAGES = {}
 # --------------------------------------------------------------- collections
 PAGES["collections.html"] = dict(
     title="Collections — Multiple Hustles LDN",
-    description="Browse every Multiple Hustles LDN collection — men, women, unisex, hoodies, summer wears and accessories.",
+    description="Browse every Multiple Hustles LDN collection — men, women, unisex, hoodies and summer wears.",
     scripts='\n<script type="module" src="assets/js/collections-index.js"></script>',
     body="""
   <section class="page-head">
@@ -208,7 +208,7 @@ PAGES["about.html"] = dict(
     <div class="container">
       <div class="split">
         <div class="split__media" data-reveal>
-          <img src="assets/img/tracksuit-lifestyle.jpg" alt="Four people in Multiple Hustles LDN tracksuits walking through a London arcade at night" width="1284" height="1403" loading="lazy">
+          <img src="assets/img/mh-london-tee-model.jpg" alt="Model outside Peckham Park Estate wearing the Multiple Hustles London tee" width="1122" height="1402" loading="lazy">
         </div>
         <div class="rte" data-reveal>
           <p class="eyebrow">Our Story</p>
@@ -225,7 +225,7 @@ PAGES["about.html"] = dict(
     <div class="container">
       <article class="editorial" data-reveal>
         <div class="editorial__media">
-          <img src="assets/img/packaging-detail.jpg" alt="Matte black Multiple Hustles LDN packaging with the lilac MHLDN wordmark" width="3000" height="3000" loading="lazy">
+          <img src="assets/img/property-tee-black.jpg" alt="Black Property Of MHL tee photographed with the MHL hangtag set" width="1254" height="1254" loading="lazy">
         </div>
         <div class="container">
           <div class="editorial__body">
@@ -267,8 +267,8 @@ FAQS = [
     ("Where do you ship?", "We ship globally. UK &amp; International shipping is available on all orders."),
     ("How long does delivery take?", "UK: 2&ndash;5 working days | International: 5&ndash;10 working days. Please allow 24&ndash;48 hours for dispatch."),
     ("Are drops limited?", "Yes. We operate on a limited-drop model to maintain exclusivity. Once it&rsquo;s gone, it&rsquo;s gone."),
-    ("How do the items fit?", "Our sizing is generally true to size with a relaxed, streetwear fit. For the &ldquo;Straight Leg Sets&rdquo; and Tracksuits, we recommend sticking to your usual size for a comfortable fit, or sizing up if you prefer an oversized look."),
-    ("Can I wash the puff print items?", "Yes, but handle with care. We recommend washing inside out on a cold cycle and air drying. Do not iron directly over the puff print or logos to preserve the quality."),
+    ("How do the items fit?", "Our sizing is generally true to size with a relaxed, streetwear fit. For the shorts and hoodies, we recommend sticking to your usual size for a comfortable fit, or sizing up if you prefer an oversized look."),
+    ("Can I wash the printed items?", "Yes, but handle with care. We recommend washing inside out on a cold cycle and air drying. Do not iron directly over the print or logos to preserve the quality."),
     ("How do I track my order?", "Once your order is dispatched, you will receive an email with a tracking number. You can use this link to monitor your package&rsquo;s journey to your doorstep."),
     ("What payment methods do you accept?", "We accept all major credit and debit cards (Visa, Mastercard, Amex), as well as PayPal and Apple Pay."),
     ("Can I change my order after placing it?", "We process orders quickly to get them to you fast. If you need to make a change, please email us immediately. If the order has already been dispatched, we cannot make changes."),

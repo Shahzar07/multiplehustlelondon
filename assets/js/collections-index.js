@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('[data-all-collections]');
   if (!grid) return;
 
-  const entries = [...collections, { ...curated, image: 'packaging-detail.jpg' }];
+  const entries = [...collections, curated];
 
   grid.innerHTML = entries
     .map((c, i) => {

@@ -9,7 +9,7 @@ const handle = params.get('c') || 'all';
 const allCollection = {
   handle: 'all',
   title: 'Shop All',
-  excerpt: 'Every piece in the current range — tees, fleece, sets and accessories.',
+  excerpt: 'Every piece in the current range — tees, hoodies and shorts.',
 };
 
 const collection = handle === 'all' ? allCollection : getCollection(handle);

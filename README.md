@@ -43,6 +43,7 @@ assets/js/product.js    Product detail
 assets/js/contact.js    Contact form
 assets/fonts/           Self-hosted Crimson Pro + Barlow (woff2, latin subsets)
 assets/img/             Product and campaign photography
+docs/client-references/ Client direction screenshots + how each was applied
 tools/build-pages.py    Regenerates the pages that share a document shell
 ```
 
