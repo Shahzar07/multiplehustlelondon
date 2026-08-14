@@ -1,0 +1,48 @@
+<section class="section section--tight">
+  <div class="container">
+    <ul class="values">
+      {%- for block in section.blocks -%}
+        <li class="value" data-reveal {{ block.shopify_attributes }}>
+          {% render 'icon', name: block.settings.icon %}
+          <h3>{{ block.settings.heading }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Value props",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "value", "name": "Value",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Truck" },
+            { "value": "refresh", "label": "Returns" },
+            { "value": "globe", "label": "Globe" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" }
+          ]
+        },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Free UK Shipping" },
+        { "type": "text", "id": "text", "label": "Text", "default": "On all orders over £100" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Value props",
+    "blocks": [
+      { "type": "value", "settings": { "icon": "truck", "heading": "Free UK Shipping", "text": "On all orders over £100" } },
+      { "type": "value", "settings": { "icon": "refresh", "heading": "14-Day Returns", "text": "Unworn, tags intact" } },
+      { "type": "value", "settings": { "icon": "globe", "heading": "Worldwide Delivery", "text": "Dispatched in 24–48 hours" } },
+      { "type": "value", "settings": { "icon": "shield", "heading": "Limited Drops", "text": "Once it's gone, it's gone" } }
+    ]
+  }]
+}
+{% endschema %}

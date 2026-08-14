@@ -1,0 +1,23 @@
+<aside class="drawer drawer--end" id="cart-drawer" data-drawer="cart" aria-hidden="true" aria-label="{{ 'sections.cart.title' | t }}">
+  <div class="drawer__head">
+    <p class="drawer__title">{{ 'sections.cart.title' | t }}</p>
+    <button class="icon-btn" type="button" data-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  </div>
+  <div class="drawer__body" data-cart-body>{% render 'cart-lines' %}</div>
+  <div class="drawer__foot" data-cart-foot {% if cart.item_count == 0 %}hidden{% endif %}>
+    <dl class="cart-total">
+      <dt>{{ 'sections.cart.subtotal' | t }}</dt>
+      <dd data-cart-total>{{ cart.total_price | money }}</dd>
+    </dl>
+    <p class="form-note" data-cart-shipping>{% render 'cart-shipping-note' %}</p>
+    <form action="{{ routes.cart_url }}" method="post">
+      <button class="btn btn--full" type="submit" name="checkout" style="margin-top:var(--space-4)">
+        {{ 'sections.cart.checkout' | t }}
+      </button>
+    </form>
+  </div>
+</aside>
+
+{% schema %}
+{ "name": "Cart drawer" }
+{% endschema %}

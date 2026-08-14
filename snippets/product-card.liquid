@@ -1,0 +1,69 @@
+{%- comment -%}
+  Product card — the white-tile grid from the client's dreamisfree reference.
+  Accepts: product (required), eager (bool, for above-the-fold images).
+{%- endcomment -%}
+{%- assign media_front = product.featured_media -%}
+{%- assign media_back = product.media[1] | default: media_front -%}
+{%- assign loading = 'lazy' -%}
+{%- if eager -%}{%- assign loading = 'eager' -%}{%- endif -%}
+
+<article class="product-card" data-reveal>
+  <div class="product-card__media">
+    {%- unless product.available -%}
+      <span class="product-card__badge product-card__badge--out">{{ 'products.product.sold_out' | t }}</span>
+    {%- else -%}
+      {%- if product.compare_at_price > product.price -%}
+        <span class="product-card__badge product-card__badge--gold">{{ 'products.product.on_sale' | t }}</span>
+      {%- elsif product.tags contains 'new' -%}
+        <span class="product-card__badge">{{ 'products.product.new_arrival' | t }}</span>
+      {%- endif -%}
+    {%- endunless -%}
+
+    {%- if media_front -%}
+      <img src="{{ media_front | image_url: width: 900 }}"
+           srcset="{{ media_front | image_url: width: 450 }} 450w, {{ media_front | image_url: width: 900 }} 900w"
+           sizes="(min-width: 990px) 25vw, 50vw"
+           alt="{{ media_front.alt | default: product.title | escape }}"
+           loading="{{ loading }}" width="900" height="1200">
+      <img src="{{ media_back | image_url: width: 900 }}" alt="" aria-hidden="true" loading="lazy" width="900" height="1200">
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+    {%- endif -%}
+
+    {%- if product.available -%}
+      <div class="product-card__quick">
+        <form method="post" action="{{ routes.cart_add_url }}" data-quick-add>
+          <input type="hidden" name="form_type" value="product">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button class="btn btn--light btn--sm btn--full" type="submit">{{ 'products.product.quick_add' | t }}</button>
+        </form>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <h3 class="product-card__title">
+    <a href="{{ product.url }}">{{ product.title }}</a>
+  </h3>
+
+  <div class="product-card__meta">
+    {%- if product.compare_at_price > product.price -%}
+      <span class="product-card__price product-card__price--was">{{ product.compare_at_price | money }}</span>
+    {%- endif -%}
+    <span class="product-card__price">{{ product.price | money }}</span>
+  </div>
+
+  {%- comment -%} Swatches from a Colour/Color option, if the product has one. {%- endcomment -%}
+  {%- for option in product.options_with_values -%}
+    {%- assign name_down = option.name | downcase -%}
+    {%- if name_down == 'colour' or name_down == 'color' -%}
+      {%- if option.values.size > 1 -%}
+        <div class="product-card__swatches" aria-hidden="true">
+          {%- for value in option.values -%}
+            <span class="product-card__swatch" style="background:{{ value | downcase | replace: ' ', '' }}"></span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+</article>

@@ -1,0 +1,39 @@
+{%- if section.blocks.size > 0 -%}
+<div class="announcement">
+  <div class="marquee" aria-label="{{ 'sections.announcements.label' | t }}">
+    {%- for group in (1..2) -%}
+      <div class="marquee__group"{% if group == 2 %} aria-hidden="true"{% endif %}>
+        {%- for pass in (1..2) -%}
+          {%- for block in section.blocks -%}
+            <span class="marquee__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free UK shipping over £100" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "announcement", "settings": { "text": "Free UK shipping over £100" } },
+      { "type": "announcement", "settings": { "text": "Limited drops — once it's gone, it's gone" } },
+      { "type": "announcement", "settings": { "text": "Dispatched within 24–48 hours" } },
+      { "type": "announcement", "settings": { "text": "Worldwide delivery" } }
+    ]
+  }
+}
+{% endschema %}

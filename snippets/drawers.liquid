@@ -1,0 +1,50 @@
+{%- comment -%} Menu, search and cart drawers — shared across every template. {%- endcomment -%}
+
+<aside class="drawer drawer--start" id="menu-drawer" data-drawer="menu" aria-hidden="true" aria-label="{{ 'general.navigation.menu' | t }}">
+  <div class="drawer__head">
+    <p class="drawer__title">{{ 'general.navigation.menu' | t }}</p>
+    <button class="icon-btn" type="button" data-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  </div>
+  <div class="drawer__body">
+    <ul class="menu-list">
+      {%- for link in linklists.main-menu.links -%}
+        {%- if link.links.size > 0 -%}
+          <li>
+            <button class="menu-list__link" type="button" aria-expanded="false" data-submenu>
+              {{ link.title }}
+              <span class="menu-list__chev" aria-hidden="true">{% render 'icon', name: 'chevron' %}</span>
+            </button>
+            <div class="menu-list__sub"><div>
+              {%- for child in link.links -%}
+                <a href="{{ child.url }}">{{ child.title }}</a>
+              {%- endfor -%}
+            </div></div>
+          </li>
+        {%- else -%}
+          <li><a class="menu-list__link" href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- if settings.social_instagram != blank -%}
+    <div class="drawer__foot">
+      <a class="link" href="{{ settings.social_instagram }}" target="_blank" rel="noopener">{{ settings.social_instagram_handle }}</a>
+    </div>
+  {%- endif -%}
+</aside>
+
+<aside class="drawer drawer--end" id="search-drawer" data-drawer="search" aria-hidden="true" aria-label="{{ 'general.search.title' | t }}">
+  <div class="drawer__head">
+    <p class="drawer__title">{{ 'general.search.title' | t }}</p>
+    <button class="icon-btn" type="button" data-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  </div>
+  <div class="drawer__body">
+    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+      {% render 'icon', name: 'search' %}
+      <label class="visually-hidden" for="search-input">{{ 'general.search.placeholder' | t }}</label>
+      <input id="search-input" type="search" name="q" value="{{ search.terms | escape }}"
+             placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off" data-search-input>
+    </form>
+    <div class="search-results" data-search-results></div>
+  </div>
+</aside>

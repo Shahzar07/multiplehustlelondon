@@ -1,0 +1,62 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "eyebrow": "Get in touch",
+        "title": "Contact Us",
+        "text": "Orders, returns, sizing or wholesale — send it over and we'll come back to you within one working day."
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "blocks": {
+        "s1": {
+          "type": "subject",
+          "settings": {
+            "label": "An order"
+          }
+        },
+        "s2": {
+          "type": "subject",
+          "settings": {
+            "label": "A return or exchange"
+          }
+        },
+        "s3": {
+          "type": "subject",
+          "settings": {
+            "label": "Sizing advice"
+          }
+        },
+        "s4": {
+          "type": "subject",
+          "settings": {
+            "label": "Wholesale & collaborations"
+          }
+        },
+        "s5": {
+          "type": "subject",
+          "settings": {
+            "label": "Something else"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "settings": {
+        "hours": "<p>Monday to Friday, 9am – 6pm GMT. Orders placed at the weekend are dispatched on the next working day.</p>",
+        "faq_url": "/pages/faqs"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "form"
+  ]
+}

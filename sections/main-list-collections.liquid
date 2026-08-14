@@ -1,0 +1,45 @@
+<section class="page-head">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
+      <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ 'general.collections' | t }}</span>
+    </nav>
+    <p class="eyebrow">{{ 'general.shop' | t }}</p>
+    <h1 class="page-head__title">{{ 'general.collections' | t }}</h1>
+    {%- if section.settings.text != blank -%}<p class="lede">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="collection-grid">
+      {%- for col in collections -%}
+        {%- if col.handle != 'frontpage' and col.products_count > 0 -%}
+          <a class="collection-card collection-card--wide" href="{{ col.url }}" data-reveal>
+            <span class="collection-card__media">
+              {%- if col.featured_image -%}
+                <img src="{{ col.featured_image | image_url: width: 1200 }}" alt="" loading="{% if forloop.index <= 2 %}eager{% else %}lazy{% endif %}" width="1200" height="900">
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'placeholder' }}
+              {%- endif -%}
+            </span>
+            <span class="collection-card__body">
+              <span class="collection-card__title">{{ col.title }}</span>
+              <span class="collection-card__cta">{{ 'collections.general.count' | t: count: col.products_count }} {% render 'icon', name: 'arrow' %}</span>
+            </span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [
+    { "type": "textarea", "id": "text", "label": "Intro", "default": "One wardrobe. Everything is cut from the same brief: heavyweight, understated, built to last." }
+  ]
+}
+{% endschema %}

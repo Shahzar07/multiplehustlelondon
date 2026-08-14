@@ -1,0 +1,28 @@
+<section class="page-head">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
+      <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ section.settings.title | default: page.title }}</span>
+    </nav>
+    <div style="margin-top:var(--space-6)">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 class="page-head__title">{{ section.settings.title | default: page.title }}</h1>
+      {%- if section.settings.text != blank -%}
+        <p class="lede page-head__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page header",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the page title." },
+    { "type": "textarea", "id": "text", "label": "Intro" }
+  ],
+  "presets": [{ "name": "Page header" }]
+}
+{% endschema %}
