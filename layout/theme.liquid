@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}" class="no-js">
 <head>
+ {%- capture ecom_header_content -%}{%- render 'ecom_header' -%}{%- endcapture -%}{%- unless ecom_header_content contains 'Liquid error' -%}{{ ecom_header_content }}{%- endunless -%}
  {%- render 'layouthub_header' -%}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -64,5 +65,5 @@
   {% render 'drawers' %}
   {% section 'cart-drawer' %}
 {%- render 'foxify-footer' -%}{% sections 'foxify-footer-group' %}{%- render 'layouthub_footer' -%} 
- </body>
+ {%- capture ecom_footer_content -%}{%- render 'ecom_footer' -%}{%- endcapture -%}{%- unless ecom_footer_content contains 'Liquid error' -%}{{ ecom_footer_content }}{%- endunless -%}</body>
 </html>

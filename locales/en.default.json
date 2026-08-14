@@ -25,6 +25,62 @@
       "title": "Sort by"
     }
   },
+  "contact": {
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send message",
+      "success": "Thanks — we've got your message and will come back within one working day."
+    }
+  },
+  "gempages": {
+    "Carousel": {
+      "no_slider": "No Slider"
+    },
+    "CarouselV3": {
+      "no_slider": "No Slider"
+    },
+    "Newsletter": {
+      "err_msg_default": "Can’t send email. Please try again later.",
+      "success_msg_default": "Thanks for subscribing"
+    },
+    "IconListV2": {
+      "icons_not_found": "Icons not found"
+    },
+    "IconList": {
+      "icons_not_found": "Icons not found"
+    },
+    "IconListHoz": {
+      "icons_not_found": "Icons not found"
+    },
+    "Product": {
+      "product_not_found": "Product not found"
+    },
+    "ProductList": {
+      "product_not_found": "Product Not Found!",
+      "no_products_found": "No products found!",
+      "no_related_products": "No related products!"
+    },
+    "ProductListV3": {
+      "product_not_found": "Product Not Found!",
+      "no_products_found": "No products found!",
+      "no_related_products": "No related products!"
+    },
+    "ProductTitle": {
+      "product_not_found": "Product Not Found"
+    },
+    "ProductVariants": {
+      "please_select": "Please select an option"
+    },
+    "StockCounter": {
+      "let_buy_now": "<mark>HURRY!</mark> LET BUY NOW"
+    },
+    "Breadcrumb": {
+      "home": "Home"
+    }
+  },
   "general": {
     "404": {
       "eyebrow": "404",
@@ -76,87 +132,6 @@
     },
     "shop_all": "Shop All"
   },
-  "products": {
-    "product": {
-      "add_to_bag": "Add to bag",
-      "quick_add": "Quick add",
-      "sold_out": "Sold out",
-      "on_sale": "Sale",
-      "new_arrival": "New arrival",
-      "view_image": "View image {{ number }}"
-    }
-  },
-  "sections": {
-    "announcements": {
-      "label": "Store announcements"
-    },
-    "hero": {
-      "choose_slide": "Choose slide",
-      "slide": "Slide {{ number }}"
-    },
-    "featured": {
-      "empty": "Products will appear here once this collection has items."
-    },
-    "testimonials": {
-      "stars": "{{ count }} out of 5 stars"
-    },
-    "cart": {
-      "title": "Your bag",
-      "empty": "Your bag is empty.",
-      "subtotal": "Subtotal",
-      "checkout": "Checkout",
-      "decrease": "Decrease quantity",
-      "increase": "Increase quantity",
-      "free_shipping_unlocked": "Free UK shipping unlocked.",
-      "free_shipping_remaining": "Spend {{ amount }} more for free UK shipping."
-    }
-  },
-  "gempages": {
-    "Carousel": {
-      "no_slider": "No Slider"
-    },
-    "CarouselV3": {
-      "no_slider": "No Slider"
-    },
-    "Newsletter": {
-      "err_msg_default": "Can’t send email. Please try again later.",
-      "success_msg_default": "Thanks for subscribing"
-    },
-    "IconListV2": {
-      "icons_not_found": "Icons not found"
-    },
-    "IconList": {
-      "icons_not_found": "Icons not found"
-    },
-    "IconListHoz": {
-      "icons_not_found": "Icons not found"
-    },
-    "Product": {
-      "product_not_found": "Product not found"
-    },
-    "ProductList": {
-      "product_not_found": "Product Not Found!",
-      "no_products_found": "No products found!",
-      "no_related_products": "No related products!"
-    },
-    "ProductListV3": {
-      "product_not_found": "Product Not Found!",
-      "no_products_found": "No products found!",
-      "no_related_products": "No related products!"
-    },
-    "ProductTitle": {
-      "product_not_found": "Product Not Found"
-    },
-    "ProductVariants": {
-      "please_select": "Please select an option"
-    },
-    "StockCounter": {
-      "let_buy_now": "<mark>HURRY!</mark> LET BUY NOW"
-    },
-    "Breadcrumb": {
-      "home": "Home"
-    }
-  },
   "pagefly": {
     "products": {
       "product": {
@@ -202,14 +177,39 @@
       "password_link": "Enter using password"
     }
   },
-  "contact": {
-    "form": {
-      "name": "Name",
-      "email": "Email",
-      "subject": "Subject",
-      "message": "Message",
-      "submit": "Send message",
-      "success": "Thanks — we've got your message and will come back within one working day."
+  "products": {
+    "product": {
+      "add_to_bag": "Add to bag",
+      "quick_add": "Quick add",
+      "sold_out": "Sold out",
+      "on_sale": "Sale",
+      "new_arrival": "New arrival",
+      "view_image": "View image {{ number }}"
+    }
+  },
+  "sections": {
+    "announcements": {
+      "label": "Store announcements"
+    },
+    "hero": {
+      "choose_slide": "Choose slide",
+      "slide": "Slide {{ number }}"
+    },
+    "featured": {
+      "empty": "Products will appear here once this collection has items."
+    },
+    "testimonials": {
+      "stars": "{{ count }} out of 5 stars"
+    },
+    "cart": {
+      "title": "Your bag",
+      "empty": "Your bag is empty.",
+      "subtotal": "Subtotal",
+      "checkout": "Checkout",
+      "decrease": "Decrease quantity",
+      "increase": "Increase quantity",
+      "free_shipping_unlocked": "Free UK shipping unlocked.",
+      "free_shipping_remaining": "Spend {{ amount }} more for free UK shipping."
     }
   }
 }
