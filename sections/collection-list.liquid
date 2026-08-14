@@ -14,8 +14,13 @@
           <a class="collection-card" href="{{ col.url }}" data-reveal {{ block.shopify_attributes }}>
             <span class="collection-card__media">
               {%- assign card_image = block.settings.image | default: col.featured_image -%}
+              {%- assign card_eager = 'lazy' -%}
+              {%- if forloop.index <= 3 -%}{%- assign card_eager = 'eager' -%}{%- endif -%}
               {%- if card_image -%}
-                <img src="{{ card_image | image_url: width: 900 }}" alt="" loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}" width="900" height="1200">
+                <img src="{{ card_image | image_url: width: 900 }}" alt="" loading="{{ card_eager }}" width="900" height="1200">
+              {%- elsif block.settings.image_asset != blank -%}
+                <img src="{{ block.settings.image_asset | asset_url }}" alt="" loading="{{ card_eager }}"
+                     width="{{ block.settings.image_asset_w | default: 900 }}" height="{{ block.settings.image_asset_h | default: 1200 }}">
               {%- else -%}
                 {{ 'collection-1' | placeholder_svg_tag: 'placeholder' }}
               {%- endif -%}
@@ -44,7 +49,10 @@
       "settings": [
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "text", "id": "title", "label": "Override title" },
-        { "type": "image_picker", "id": "image", "label": "Override image" }
+        { "type": "image_picker", "id": "image", "label": "Override image" },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme image", "info": "Filename in assets/. Used when the collection has no image." },
+        { "type": "number", "id": "image_asset_w", "label": "Fallback image width" },
+        { "type": "number", "id": "image_asset_h", "label": "Fallback image height" }
       ]
     }
   ],

@@ -1,7 +1,10 @@
 {
   "sections": {
     "header": {
-      "type": "page-header"
+      "type": "page-header",
+      "settings": {
+        "eyebrow": "Delivery"
+      }
     },
     "main": {
       "type": "main-page"

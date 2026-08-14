@@ -5,6 +5,10 @@
         {%- if section.settings.image -%}
           <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.image.alt | escape }}"
                width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}" loading="lazy">
+        {%- elsif section.settings.image_asset != blank -%}
+          <img src="{{ section.settings.image_asset | asset_url }}"
+               alt="{{ section.settings.image_alt | escape }}"
+               width="{{ section.settings.image_asset_w | default: 1200 }}" height="{{ section.settings.image_asset_h | default: 1600 }}" loading="lazy">
         {%- else -%}
           {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
         {%- endif -%}
@@ -31,6 +35,10 @@
   "name": "Split feature",
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_asset", "label": "Fallback theme image", "info": "Filename in assets/. Used when no image is picked above." },
+    { "type": "text", "id": "image_alt", "label": "Fallback image alt text" },
+    { "type": "number", "id": "image_asset_w", "label": "Fallback image width" },
+    { "type": "number", "id": "image_asset_h", "label": "Fallback image height" },
     { "type": "checkbox", "id": "reverse", "label": "Image on the right", "default": false },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Unisex Wears" },

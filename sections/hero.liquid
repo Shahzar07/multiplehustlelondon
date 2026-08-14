@@ -11,6 +11,14 @@
                alt="{{ block.settings.image.alt | escape }}"
                width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}"
                {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+        {%- elsif block.settings.image_asset != blank -%}
+          {%- comment -%} Bundled theme photography, so the page looks right before
+          a merchant picks anything in the customizer. {%- endcomment -%}
+          <img style="--focal:{{ block.settings.focal_x }}% {{ block.settings.focal_y }}%"
+               src="{{ block.settings.image_asset | asset_url }}"
+               alt="{{ block.settings.image_alt | escape }}"
+               width="{{ block.settings.image_asset_w | default: 1200 }}" height="{{ block.settings.image_asset_h | default: 1600 }}"
+               {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
         {%- else -%}
           {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' }}
         {%- endif -%}
@@ -63,6 +71,10 @@
       "type": "slide", "name": "Slide",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Fallback theme image", "info": "Filename in assets/. Used when no image is picked above." },
+        { "type": "text", "id": "image_alt", "label": "Fallback image alt text" },
+        { "type": "number", "id": "image_asset_w", "label": "Fallback image width" },
+        { "type": "number", "id": "image_asset_h", "label": "Fallback image height" },
         { "type": "range", "id": "focal_x", "label": "Focal point X", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
         { "type": "range", "id": "focal_y", "label": "Focal point Y", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 30 },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New Arrival" },

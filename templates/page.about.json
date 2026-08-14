@@ -1,0 +1,67 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "eyebrow": "About Us & Brand Vision",
+        "title": "Born in London. Inspired by Movement."
+      }
+    },
+    "story": {
+      "type": "split-feature",
+      "settings": {
+        "image_asset": "mh-london-tee-model.jpg",
+        "image_alt": "Model outside Peckham Park Estate wearing the Multiple Hustles London tee",
+        "eyebrow": "Our Story",
+        "heading": "We don't rely on one lane.",
+        "text": "Multiple Hustles LDN wasn't created in a boardroom; it was built on ambition, discipline, and the quiet deals made behind closed doors. We represent the individuals who don't rely on one lane to get to where they're going. Our collection is designed for the modern hustler — versatile, high-quality, and understated.",
+        "cta_label": "Shop the range",
+        "image_asset_w": 1122,
+        "image_asset_h": 1402
+      }
+    },
+    "vision": {
+      "type": "editorial",
+      "settings": {
+        "image_asset": "property-tee-black.jpg",
+        "image_alt": "Black Property Of MHL tee photographed with the MHL hangtag set",
+        "focal_x": 50,
+        "focal_y": 40,
+        "eyebrow": "Brand Vision",
+        "heading": "Build in the Shadows. Win in Plain Sight.",
+        "text": "Multiple Hustles LDN represents a lifestyle where secrets are exchanged, deals are made, and ambition moves silently.",
+        "cta_label": "Shop the range",
+        "image_asset_w": 1254,
+        "image_asset_h": 1672
+      }
+    },
+    "prose": {
+      "type": "rich-prose",
+      "settings": {
+        "pull_quote": "“True success doesn't need to shout. It shows up in the details — the quality of the fabric, the cut of the silhouette, and the confidence of the person wearing it.”",
+        "content": "<p>Our vision is to build a global community of disciplined movers who understand that the hustle isn't just about working hard; it's about working smart and looking clean while you do it.</p>"
+      }
+    },
+    "manifesto": {
+      "type": "manifesto",
+      "settings": {
+        "eyebrow": "Started With Nothing",
+        "heading": "Every drop is limited. Once it's gone, it's gone.",
+        "text": "We operate on a limited-drop model to maintain exclusivity — small runs, made properly, released when they're right.",
+        "cta_label": "Shop Now"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "story",
+    "vision",
+    "prose",
+    "manifesto",
+    "newsletter"
+  ]
+}

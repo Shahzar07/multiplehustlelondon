@@ -1,18 +1,8 @@
-<section class="page-head">
-  <div class="container">
-    <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
-      <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
-      <span aria-hidden="true">/</span>
-      <span aria-current="page">{{ page.title }}</span>
-    </nav>
-    <h1 class="page-head__title">{{ page.title }}</h1>
-  </div>
-</section>
 <section class="section section--tight">
-  <div class="container">
+  <div class="container container--reading">
     <div class="rte page-content">{{ page.content }}</div>
   </div>
 </section>
 {% schema %}
-{ "name": "Page" }
+{ "name": "Page content" }
 {% endschema %}

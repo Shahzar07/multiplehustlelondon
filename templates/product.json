@@ -18,12 +18,22 @@
           }
         }
       },
-      "block_order": ["shipping", "care"]
+      "block_order": [
+        "shipping",
+        "care"
+      ]
     },
     "related": {
       "type": "featured-collection",
-      "settings": { "eyebrow": "Complete the look", "heading": "You may also like", "count": 4 }
+      "settings": {
+        "eyebrow": "Complete the look",
+        "heading": "You may also like",
+        "count": 4
+      }
     }
   },
-  "order": ["main", "related"]
+  "order": [
+    "main",
+    "related"
+  ]
 }

@@ -101,5 +101,15 @@
     "general": {
       "empty": "No posts yet."
     }
+  },
+  "contact": {
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send message",
+      "success": "Thanks — we've got your message and will come back within one working day."
+    }
   }
 }
