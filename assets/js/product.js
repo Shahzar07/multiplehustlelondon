@@ -125,7 +125,7 @@ function renderProduct() {
         </button>
         <div class="accordion__panel"><div>
           <div class="rte">
-            <p>Wash inside out on a cold cycle and air dry. Do not iron directly over the puff print or logos &mdash; it preserves the raised finish.</p>
+            <p>Wash inside out on a cold cycle and air dry. Do not iron directly over the print or logos &mdash; it preserves the finish.</p>
           </div>
         </div></div>
       </div>

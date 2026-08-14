@@ -95,7 +95,6 @@ const navGroups = [
   { label: 'Women', href: 'collection.html?c=women-wears' },
   { label: 'Unisex', href: 'collection.html?c=unisex-wears' },
   { label: 'Hoodies', href: 'collection.html?c=mh-ldn-hoodies' },
-  { label: 'Accessories', href: 'collection.html?c=you-deserves-more' },
   {
     label: 'Info',
     href: 'about.html',
