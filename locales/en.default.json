@@ -1,0 +1,105 @@
+{
+  "general": {
+    "home": "Home",
+    "shop": "Shop",
+    "collection": "Collection",
+    "collections": "Collections",
+    "breadcrumb": "Breadcrumb",
+    "view_all": "View all",
+    "view_collection": "View Collection",
+    "continue_shopping": "Continue shopping",
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close": "Close"
+    },
+    "navigation": {
+      "primary": "Primary",
+      "menu": "Menu",
+      "open_menu": "Open menu"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "What are you looking for?",
+      "results_count": {
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
+      },
+      "no_results": "Nothing matches “{{ terms }}”."
+    },
+    "newsletter": {
+      "email": "Email address",
+      "placeholder": "Enter your email",
+      "submit": "Subscribe",
+      "success": "You're on the list. Watch your inbox for the next drop."
+    },
+    "footer": {
+      "rights": "All Rights Reserved.",
+      "email_us": "Email us",
+      "payment_methods": "Accepted payment methods"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ page }}",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "404": {
+      "eyebrow": "404",
+      "title": "Page not found",
+      "text": "The page you're after has moved or sold out. Everything still in the range is one click away."
+    },
+    "shop_all": "Shop All"
+  },
+  "sections": {
+    "announcements": {
+      "label": "Store announcements"
+    },
+    "hero": {
+      "choose_slide": "Choose slide",
+      "slide": "Slide {{ number }}"
+    },
+    "featured": {
+      "empty": "Products will appear here once this collection has items."
+    },
+    "testimonials": {
+      "stars": "{{ count }} out of 5 stars"
+    },
+    "cart": {
+      "title": "Your bag",
+      "empty": "Your bag is empty.",
+      "subtotal": "Subtotal",
+      "checkout": "Checkout",
+      "decrease": "Decrease quantity",
+      "increase": "Increase quantity",
+      "free_shipping_unlocked": "Free UK shipping unlocked.",
+      "free_shipping_remaining": "Spend {{ amount }} more for free UK shipping."
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_bag": "Add to bag",
+      "quick_add": "Quick add",
+      "sold_out": "Sold out",
+      "on_sale": "Sale",
+      "new_arrival": "New arrival",
+      "view_image": "View image {{ number }}"
+    }
+  },
+  "collections": {
+    "general": {
+      "count": {
+        "one": "{{ count }} piece",
+        "other": "{{ count }} pieces"
+      },
+      "empty": "Nothing in this collection yet."
+    },
+    "sorting": {
+      "title": "Sort by"
+    }
+  },
+  "blogs": {
+    "general": {
+      "empty": "No posts yet."
+    }
+  }
+}

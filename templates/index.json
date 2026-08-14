@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "slide_goat": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "New Arrival",
+            "heading": "Started With Nothing",
+            "text": "Built on ambition, discipline, and the quiet deals made behind closed doors. The uniform for everyone who doesn't rely on one lane.",
+            "cta_label": "Shop Now",
+            "cta2_label": "Our Story",
+            "focal_x": 50,
+            "focal_y": 30
+          }
+        },
+        "slide_london": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Shop Today",
+            "heading": "Multiple Hustles London",
+            "text": "The stacked lockup in silver and sky blue, printed large on heavyweight black cotton. Limited drop — once it's gone, it's gone.",
+            "cta_label": "Shop The Tee",
+            "focal_x": 50,
+            "focal_y": 30
+          }
+        }
+      },
+      "block_order": ["slide_goat", "slide_london"]
+    },
+    "value_props": {
+      "type": "value-props",
+      "blocks": {
+        "v1": { "type": "value", "settings": { "icon": "truck", "heading": "Free UK Shipping", "text": "On all orders over £100" } },
+        "v2": { "type": "value", "settings": { "icon": "refresh", "heading": "14-Day Returns", "text": "Unworn, tags intact" } },
+        "v3": { "type": "value", "settings": { "icon": "globe", "heading": "Worldwide Delivery", "text": "Dispatched in 24–48 hours" } },
+        "v4": { "type": "value", "settings": { "icon": "shield", "heading": "Limited Drops", "text": "Once it's gone, it's gone" } }
+      },
+      "block_order": ["v1", "v2", "v3", "v4"]
+    },
+    "collection_list": {
+      "type": "collection-list",
+      "settings": { "eyebrow": "Collection", "heading": "Shop by Category" },
+      "blocks": {
+        "c1": { "type": "collection", "settings": {} },
+        "c2": { "type": "collection", "settings": {} },
+        "c3": { "type": "collection", "settings": {} },
+        "c4": { "type": "collection", "settings": {} }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"]
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": { "eyebrow": "New Arrival", "heading": "Latest Wears", "count": 4 }
+    },
+    "manifesto": { "type": "manifesto", "settings": {} },
+    "editorial": { "type": "editorial", "settings": {} },
+    "strip": {
+      "type": "marquee-strip",
+      "blocks": {
+        "s1": { "type": "item", "settings": { "text": "Started With Nothing" } },
+        "s2": { "type": "item", "settings": { "text": "Dreamers Only" } },
+        "s3": { "type": "item", "settings": { "text": "Born in London" } },
+        "s4": { "type": "item", "settings": { "text": "Limited Drops" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"]
+    },
+    "split": {
+      "type": "split-feature",
+      "settings": {
+        "reverse": true,
+        "eyebrow": "Brand New",
+        "heading": "Unisex Wears",
+        "text": "These are versatile, gender-neutral wears designed to be worn by individuals of any gender, promoting inclusivity and flexibility in fashion.",
+        "cta_label": "Shop This",
+        "cta2_label": "Shop All"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": { "type": "testimonial", "settings": { "stars": 5, "quote": "The MH London Hoodie is heavy — in a good way. You can feel the quality of the fabric immediately. It doesn't lose shape after a wash. Proper investment piece.", "author": "J.K., Verified" } },
+        "t2": { "type": "testimonial", "settings": { "stars": 5, "quote": "I was skeptical about the 'unisex' fit, but the Multiple Hustles Shorts sit perfectly. Comfortable enough for the grind, sharp enough for the meet.", "author": "Sarah M., Verified Customer" } },
+        "t3": { "type": "testimonial", "settings": { "stars": 5, "quote": "Quality speaks for itself. You can feel the intention in every detail. Delivery was faster than expected, too.", "author": "David O., Verified Customer" } }
+      },
+      "block_order": ["t1", "t2", "t3"]
+    },
+    "newsletter": { "type": "newsletter", "settings": {} }
+  },
+  "order": [
+    "hero", "value_props", "collection_list", "featured",
+    "manifesto", "editorial", "strip", "split", "testimonials", "newsletter"
+  ]
+}

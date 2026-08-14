@@ -1,115 +1,80 @@
-# Multiple Hustles LDN
+# Multiple Hustles LDN — Shopify theme
 
-A full redesign of [multiplehustlesldn.online](https://multiplehustlesldn.online/) as a premium,
-editorial storefront. The brand content — copy, policies, products, contact details — is carried
-over from the existing site; the design language is rebuilt from the ground up.
+An Online Store 2.0 theme carrying the Multiple Hustles LDN design language:
+warm paper ground, serif display type, tight sans utility type, pill actions,
+and a white product grid built to the client's dreamisfree reference.
 
-Static HTML, CSS and ES modules. No build step, no framework, no runtime dependencies.
+## Installing from GitHub
 
-## Running it
+Shopify reads a theme from the **root of a branch**, so this branch contains the
+theme and nothing else. The static marketing site lives on
+`claude/add-product-images-references-9psgcl`.
 
-Any static file server will do. ES modules need HTTP (opening `index.html` over `file://`
-will not work):
+1. Shopify admin → **Online Store → Themes**
+2. **Add theme → Connect from GitHub**
+3. Pick this repository and the **`claude/shopify-theme`** branch
+4. Shopify validates the structure, adds it as an unpublished theme, and keeps
+   syncing on every push to that branch
 
-```sh
-python3 -m http.server 4321
-# → http://localhost:4321
-```
-
-Deploying is a straight upload of the repository root to Netlify, Vercel, Cloudflare Pages,
-GitHub Pages or any static host.
-
-## Layout
+## Structure
 
 ```
-index.html              Home — hero slideshow, categories, featured rails, editorial, testimonials
-collections.html        All collections
-collection.html?c=…     Collection listing with filters and sorting
-product.html?p=…        Product detail with variant picker
-about.html              Story and brand vision
-faqs.html               FAQs
-shipping-returns.html   Shipping and returns policy
-terms.html              Terms and conditions
-privacy.html            Privacy policy
-contact.html            Contact form and details
-404.html                Not found
-
-assets/css/theme.css    The whole design system — tokens, components, layout
-assets/js/data.js       Catalogue: shop details, collections, products
-assets/js/site.js       Shell: header, footer, drawers, cart, search, motion
-assets/js/home.js       Home page rails
-assets/js/collection.js Collection listing
-assets/js/product.js    Product detail
-assets/js/contact.js    Contact form
-assets/fonts/           Self-hosted Crimson Pro + Barlow (woff2, latin subsets)
-assets/img/             Product and campaign photography
-docs/client-references/ Client direction screenshots + how each was applied
-tools/build-pages.py    Regenerates the pages that share a document shell
+layout/theme.liquid        Document shell, @font-face, header/footer/drawers
+templates/*.json           OS 2.0 templates — sections are editable in the customizer
+sections/main-*.liquid     Template bodies (product, collection, cart, search…)
+sections/*.liquid          Homepage sections, all with presets
+snippets/product-card.*    The white-tile card used by every product grid
+assets/theme.css           The whole design system
+assets/theme.js            Drawers, hero, reveals, variant picker, AJAX cart
+config/settings_schema.*   Theme settings (brand, colours, shipping threshold)
+locales/en.default.json    All UI copy
 ```
 
-Header and footer are injected by `site.js` from a single definition so the navigation only
-lives in one place. Page content itself is real HTML in each file.
+`assets/` is flat — Shopify does not allow nested asset folders, so the fonts and
+images sit alongside the CSS and JS and are referenced through `asset_url`.
 
-## Design system
+## After you connect it
 
-Everything is driven by custom properties at the top of `assets/css/theme.css`.
+The theme renders **your Shopify catalogue** — a theme cannot carry products in
+code. Once connected:
 
-| | |
-|---|---|
-| Display type | Crimson Pro 700 |
-| Body type | Barlow 500, small sizes, wide tracking on labels |
-| Ground | `#FFFDFA` warm paper |
-| Ink | `#000` / `#1A1A1A` |
-| Accent | `#F0C417` gold |
-| Cards | `#F8F8F8` |
-| Radii | `1.5rem` blocks, `3.75rem` pill buttons |
-| Shadow | `0 18px 50px rgb(0 0 0 / 0.1)` |
-| Container | `1700px`, `1450px` narrow, `780px` reading |
+1. **Create the products** in Products → Add product. Give each a `Colour` and a
+   `Size` option so the variant pickers appear; the swatch fills from the colour
+   name, so use plain names (`Black`, `Pink`, `Grey Marl`).
+2. **Upload the photography** to each product. The card shows the first image and
+   swaps to the second on hover, so set the packshot first and the back or
+   lifestyle shot second. The image files are in `assets/` on this branch and in
+   `assets/img/` on the site branch.
+3. **Create the collections** and assign products. Handles used by the old site:
+   `men-wears`, `women-wears`, `unisex-wears`, `mh-ldn-hoodies`, `winter-wear`.
+4. **Point the sections at them** in the theme customizer — the homepage hero,
+   collection list, featured collection and editorial banner all take images and
+   collections as settings rather than hardcoding them.
+5. **Set the menus** — Navigation → `main-menu` and `footer`. The header, drawer
+   and footer columns all read from those.
 
-To restyle the site, change the tokens — not the components.
+## Product → image map
 
-## Editing the catalogue
+| Product | Images, in order |
+| --- | --- |
+| Greatest Of All Time Tee | `goat-tee-front`, `goat-tee-back`, `goat-tee-model` |
+| Multiple Hustles London Tee | `mh-london-tee-black`, `mh-london-tee-model` |
+| Property Of MHL Tee | `property-tee-black`, `property-tee-trio` |
+| Multiple Hustles Shorts | `shorts-pink-front`, `shorts-pink-back`, `shorts-grey-front`, `shorts-grey-back`, `campaign-studio` |
+| MH London Hoodie | `mh-london-hoodie-model` |
+| Hustle Baby Crop Tee | `campaign-studio` |
 
-Products and collections live in `assets/js/data.js`. A product looks like this:
+Suggested hero images: slide 1 `goat-tee-model`, slide 2 `mh-london-tee-model`.
+Editorial banner: `mh-london-hoodie-model` at focal point 50% / 18%.
 
-```js
-{
-  handle: 'mh-ldn-short-sleeve-og-tshirt',   // used in product.html?p=<handle>
-  title: 'MH LDN Short Sleeve OG T-Shirt',
-  price: 45,
-  badge: 'New arrival',                       // optional
-  collections: ['men-wears', 'unisex-wears'], // collection handles
-  images: ['tee-mhldn-black.png', '…'],       // first is the card image, second the hover
-  colors: [{ name: 'Black', hex: '#111111' }],
-  sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-  excerpt: '…',      // one line, used in search and meta description
-  description: '…',  // product page body
-  details: ['…'],    // bullet list in the Details accordion
-}
+## Validation
+
+`@shopify/theme-check-node` reports **0 offenses** across the theme.
+
+```bash
+npm install --no-save @shopify/theme-check-node
+node -e "import('@shopify/theme-check-node').then(async m => {
+  const { offenses } = await m.themeCheckRun(process.cwd());
+  console.log('offenses:', offenses.length);
+})"
 ```
-
-Collection handles match the handles on the live Shopify store, so links stay portable if the
-catalogue is later served from Shopify.
-
-## Regenerating pages
-
-`collections`, `collection`, `product`, `about`, `faqs`, `shipping-returns`, `terms`, `privacy`,
-`contact` and `404` share one document shell. Edit the page body in `tools/build-pages.py`, then:
-
-```sh
-python3 tools/build-pages.py
-```
-
-`index.html` is authored by hand and is never touched by the script.
-
-## Not wired up yet
-
-These need a backend or a third-party service before launch:
-
-- **Checkout.** The cart is real — it persists to `localStorage`, updates quantities and totals,
-  and tracks the free-shipping threshold — but the Checkout button links to the contact page.
-  Point it at Shopify checkout or a payment provider.
-- **Newsletter.** The form validates and confirms, but posts nowhere.
-- **Contact form.** Falls back to opening the visitor's mail client via `mailto:`.
-- **Prices.** Carried over as GBP figures consistent with the site's stated policies
-  (free shipping over £100). Confirm against real pricing before launch.
