@@ -46,13 +46,13 @@
   {{ content_for_header }}
 {%- render 'foxify-head' -%}</head>
 
-<body class="template-{{ template.name | handle }}">{% sections 'foxify-header-group' %}
+<body class="template-{{ template.name | handle }}"><div style="display:none"> {% sections 'foxify-header-group' %} </div>
   <a class="skip-link" href="#main">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
-  {% render 'icon-defs' %}
+  <div style="display:none"> {% render 'icon-defs' %} </div>
 
-  {% section 'announcement-bar' %}
-  {% section 'header' %}
+  <div style="display:none"> {% section 'announcement-bar' %} </div>
+  <div style="display:none"> {% section 'header' %} </div>
 
   <main id="main" role="main">
     <!--LayoutHub-Workspace-Start-->{{ content_for_layout }}<!--LayoutHub-Workspace-End-->

@@ -1,0 +1,33 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "pf-b258212c": {
+      "type": "pf-b258212c",
+      "settings": {
+        "pf_64a9cd7a_value": "Multiple Hustles LDN wasn't created in a boardroom; it was built on ambition, discipline, and the quiet deals made behind closed doors. We represent the individuals who don't rely on one lane to get to where they're going.\n<br><br>Our collection is designed for the modern hustler—versatile, high-quality, and understated. Whether you are building a business, chasing a creative passion, or grinding 9-to-5 to fund your 5-to-9, our clothing is the uniform for your journey.\n<br><br>We don't just sell clothes; we sell the mindset that you deserve more.\n",
+        "pf_e504fd0e_value": "Multiple Hustles LDN represents a lifestyle where secrets are exchanged, deals are made, and ambition moves silently.\n<br><br>We believe that true success doesn't need to shout. It shows up in the details—the quality of the fabric, the cut of the silhouette, and the confidence of the person wearing it. Our vision is to build a global community of disciplined movers who understand that the hustle isn't just about working hard; it's about working smart and looking clean while you do it.\n",
+        "pf_16651550_value": "A supporting statement for your value proposition to encourage customer to complete your CTAs",
+        "pf_c4ee64a9_value": "“Any quotes? Spend some time thinking and make it memorable”",
+        "pf_96a175b3_value": "Build in the Shadows. Win in Plain Sight.\n",
+        "pf_26d5efd2_value": "Born in London. Inspired by Movement.\n",
+        "pf_991026d5_value": "About Us &amp; Brand Vision",
+        "pf_e7171665_value": "Subscribe for newsletter",
+        "pf_aa0eb6ec_placeholder": "Enter your email",
+        "pf_3cade504_value": "Brand Vision\n",
+        "pf_eaccc4ee_value": "About Us\n",
+        "pf_0eb6ecb9_value": "Submit"
+      }
+    }
+  },
+  "order": [
+    "pf-b258212c"
+  ]
+}

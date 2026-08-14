@@ -46,23 +46,7 @@
   {{ content_for_header }}
 {%- render 'foxify-head' -%}</head>
 
-<body class="template-{{ template.name | handle }}">{% sections 'foxify-header-group' %}
-  <a class="skip-link" href="#main">{{ 'general.accessibility.skip_to_content' | t }}</a>
-
-  {% render 'icon-defs' %}
-
-  {% section 'announcement-bar' %}
-  {% section 'header' %}
-
-  <main id="main" role="main">
+<body class="template-{{ template.name | handle }}"><main id="main" role="main">
     <!--LayoutHub-Workspace-Start-->{{ content_for_layout }}<!--LayoutHub-Workspace-End-->
-  </main>
-
-  {% section 'footer' %}
-
-  <div class="overlay" data-overlay></div>
-  {% render 'drawers' %}
-  {% section 'cart-drawer' %}
-{%- render 'foxify-footer' -%}{% sections 'foxify-footer-group' %}{%- render 'layouthub_footer' -%} 
- </body>
+  </main></body>
 </html>
