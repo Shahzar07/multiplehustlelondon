@@ -9,7 +9,7 @@
     </div>
     <div class="collection-grid">
       {%- for block in section.blocks -%}
-        {%- assign col = collections[block.settings.collection] -%}
+        {%- assign col = collections[block.settings.collection_handle] -%}
         {%- if col != blank -%}
           <a class="collection-card" href="{{ col.url }}" data-reveal {{ block.shopify_attributes }}>
             <span class="collection-card__media">
@@ -47,7 +47,7 @@
     {
       "type": "collection", "name": "Collection",
       "settings": [
-        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "collection_handle", "label": "Collection handle" },
         { "type": "text", "id": "title", "label": "Override title" },
         { "type": "image_picker", "id": "image", "label": "Override image" },
         { "type": "text", "id": "image_asset", "label": "Fallback theme image", "info": "Filename in assets/. Used when the collection has no image." },
@@ -56,6 +56,15 @@
       ]
     }
   ],
-  "presets": [{ "name": "Collection list" }]
+  "presets": [{ "name": "Collection list" }],
+  "default": {
+    "blocks": [
+      { "type": "collection", "settings": { "collection_handle": "men-wears", "title": "Men Wears", "image_asset": "mh-london-tee-model.jpg", "image_asset_w": 1122, "image_asset_h": 1402 } },
+      { "type": "collection", "settings": { "collection_handle": "women-wears", "title": "Women Wears", "image_asset": "campaign-studio.jpg", "image_asset_w": 1401, "image_asset_h": 1123 } },
+      { "type": "collection", "settings": { "collection_handle": "unisex-wears", "title": "Unisex Wears", "image_asset": "goat-tee-model.jpg", "image_asset_w": 1086, "image_asset_h": 1448 } },
+      { "type": "collection", "settings": { "collection_handle": "mh-ldn-hoodies", "title": "MH LDN Hoodies", "image_asset": "mh-london-hoodie-model.jpg", "image_asset_w": 1122, "image_asset_h": 1402 } },
+      { "type": "collection", "settings": { "collection_handle": "winter-wear", "title": "Summer Wears", "image_asset": "property-tee-trio.jpg", "image_asset_w": 1402, "image_asset_h": 1122 } }
+    ]
+  }
 }
 {% endschema %}
