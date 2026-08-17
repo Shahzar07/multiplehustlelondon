@@ -45,25 +45,25 @@
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
   {{ content_for_header }}
-{%- render 'foxify-head' -%}{% include 'pagefly-app-header' %}</head>
+{%- render 'foxify-head' -%}</head>
 
-<body class="template-{{ template.name | handle }}">{% sections 'foxify-header-group' %}
+<body class="template-{{ template.name | handle }}"> {% sections 'foxify-header-group' %} 
   <a class="skip-link" href="#main">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
   {% render 'icon-defs' %}
 
   {% section 'announcement-bar' %}
-  {% section 'header' %}
+  
 
   <main id="main" role="main">
-    <!--LayoutHub-Workspace-Start-->{{ content_for_layout }}<!--LayoutHub-Workspace-End-->
+    <!--LayoutHub-Workspace-Start--><div class="foxify-container">{{ content_for_layout }}</div><!--LayoutHub-Workspace-End-->
   </main>
 
-  {% section 'footer' %}
+  
 
   <div class="overlay" data-overlay></div>
   {% render 'drawers' %}
   {% section 'cart-drawer' %}
-{%- render 'foxify-footer' -%}{% sections 'foxify-footer-group' %}{%- render 'layouthub_footer' -%} 
- {%- capture ecom_footer_content -%}{%- render 'ecom_footer' -%}{%- endcapture -%}{%- unless ecom_footer_content contains 'Liquid error' -%}{{ ecom_footer_content }}{%- endunless -%}</body>
+{%- render 'foxify-footer' -%}{%- render 'layouthub_footer' -%} 
+ {%- capture ecom_footer_content -%}{%- render 'ecom_footer' -%}{%- endcapture -%}{%- unless ecom_footer_content contains 'Liquid error' -%}{{ ecom_footer_content }}{%- endunless -%} {% sections 'foxify-footer-group' %} </body>
 </html>

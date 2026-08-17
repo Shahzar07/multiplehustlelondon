@@ -8,42 +8,42 @@
  * ------------------------------------------------------------
  */
 {
-  "order": [
-    "main",
-    "related"
-  ],
   "sections": {
     "main": {
+      "type": "main-product",
+      "blocks": {
+        "shipping": {
+          "type": "details",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "content": "<p>Dispatched within 24–48 hours. Free UK shipping over £100. 14-day returns on unworn items with tags intact.</p>"
+          }
+        },
+        "care": {
+          "type": "details",
+          "settings": {
+            "heading": "Care",
+            "content": "<p>Wash inside out on a cold cycle and air dry. Do not iron directly over the print or logos — it preserves the finish.</p>"
+          }
+        }
+      },
       "block_order": [
         "shipping",
         "care"
       ],
-      "blocks": {
-        "care": {
-          "settings": {
-            "content": "<p>Wash inside out on a cold cycle and air dry. Do not iron directly over the print or logos — it preserves the finish.</p>",
-            "heading": "Care"
-          },
-          "type": "details"
-        },
-        "shipping": {
-          "settings": {
-            "content": "<p>Dispatched within 24–48 hours. Free UK shipping over £100. 14-day returns on unworn items with tags intact.</p>",
-            "heading": "Shipping & Returns"
-          },
-          "type": "details"
-        }
-      },
-      "settings": {},
-      "type": "main-product"
+      "settings": {}
     },
     "related": {
+      "type": "featured-collection",
       "settings": {
-        "count": 4,
         "eyebrow": "Complete the look",
-        "heading": "You may also like"
-      },
-      "type": "featured-collection"
+        "heading": "You may also like",
+        "count": 4
+      }
     }
-  }
+  },
+  "order": [
+    "main",
+    "related"
+  ]
 }

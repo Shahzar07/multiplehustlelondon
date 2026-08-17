@@ -1,0 +1,22 @@
+{%- comment -%}
+  Homepage.
+
+  Deliberately a Liquid template rather than a JSON one. Shopify's GitHub sync
+  would not accept templates/index.json into this theme — every other route
+  resolved while / returned 404, and /?view=ecomposer proved index routing
+  itself was fine — so the homepage is rendered from static sections, which
+  are not subject to JSON-template validation. Each section carries its
+  content as schema defaults and stays editable in the theme customizer.
+{%- endcomment -%}
+
+{% section 'hero' %}
+{% section 'value-props' %}
+{% section 'collection-list' %}
+{% section 'featured-collection' %}
+{% section 'manifesto' %}
+{% section 'editorial-banner' %}
+{% section 'marquee-strip' %}
+{% section 'split-feature' %}
+{% section 'curated-collection' %}
+{% section 'testimonials' %}
+{% section 'newsletter' %}
