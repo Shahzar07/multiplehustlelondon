@@ -1,16 +1,19 @@
-{%- if section.blocks.size > 0 -%}
+{%- assign fallback = 'Started With Nothing,Dreamers Only,Born in London,Limited Drops' | split: ',' -%}
 <div class="strip" aria-hidden="true">
   <div class="strip__track">
     {%- for group in (1..2) -%}
       <div class="strip__group">
-        {%- for block in section.blocks -%}
-          <span class="strip__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
-        {%- endfor -%}
+        {%- if section.blocks.size > 0 -%}
+          {%- for block in section.blocks -%}
+            <span class="strip__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for item in fallback -%}<span class="strip__item">{{ item }}</span>{%- endfor -%}
+        {%- endif -%}
       </div>
     {%- endfor -%}
   </div>
 </div>
-{%- endif -%}
 
 {% schema %}
 {

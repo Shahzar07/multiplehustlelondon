@@ -1,13 +1,26 @@
 <section class="section section--tight">
   <div class="container">
     <ul class="values">
-      {%- for block in section.blocks -%}
-        <li class="value" data-reveal {{ block.shopify_attributes }}>
-          {% render 'icon', name: block.settings.icon %}
-          <h3>{{ block.settings.heading }}</h3>
-          <p>{{ block.settings.text }}</p>
-        </li>
-      {%- endfor -%}
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <li class="value" data-reveal {{ block.shopify_attributes }}>
+            {% render 'icon', name: block.settings.icon %}
+            <h3>{{ block.settings.heading }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign icons = 'truck,refresh,globe,shield' | split: ',' -%}
+        {%- assign heads = 'Free UK Shipping,14-Day Returns,Worldwide Delivery,Limited Drops' | split: ',' -%}
+        {%- assign texts = 'On all orders over £100|Unworn, tags intact|Dispatched in 24–48 hours|Once it’s gone, it’s gone' | split: '|' -%}
+        {%- for icon in icons -%}
+          <li class="value" data-reveal>
+            {% render 'icon', name: icon %}
+            <h3>{{ heads[forloop.index0] }}</h3>
+            <p>{{ texts[forloop.index0] }}</p>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
     </ul>
   </div>
 </section>

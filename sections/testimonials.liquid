@@ -7,6 +7,19 @@
       </div>
     </div>
     <div class="testimonial-grid">
+      {%- if section.blocks.size == 0 -%}
+        {%- assign quotes = 'The MH London Hoodie is heavy — in a good way. You can feel the quality of the fabric immediately. It doesn’t lose shape after a wash. Proper investment piece.|I was skeptical about the ‘unisex’ fit, but the Multiple Hustles Shorts sit perfectly. Comfortable enough for the grind, sharp enough for the meet.|Quality speaks for itself. You can feel the intention in every detail. Delivery was faster than expected, too.' | split: '|' -%}
+        {%- assign authors = 'J.K., Verified|Sarah M., Verified Customer|David O., Verified Customer' | split: '|' -%}
+        {%- for quote in quotes -%}
+          <blockquote class="testimonial" data-reveal>
+            <div class="testimonial__stars" aria-label="5 out of 5 stars">
+              {%- for i in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}
+            </div>
+            <p class="testimonial__quote">{{ quote }}</p>
+            <cite class="testimonial__author">{{ authors[forloop.index0] }}</cite>
+          </blockquote>
+        {%- endfor -%}
+      {%- endif -%}
       {%- for block in section.blocks -%}
         <blockquote class="testimonial" data-reveal {{ block.shopify_attributes }}>
           <div class="testimonial__stars" aria-label="{{ 'sections.testimonials.stars' | t: count: block.settings.stars }}">

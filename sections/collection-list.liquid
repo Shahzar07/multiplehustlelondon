@@ -8,6 +8,24 @@
       <a class="link" href="{{ routes.collections_url }}">{{ 'general.view_all' | t }}</a>
     </div>
     <div class="collection-grid">
+      {%- if section.blocks.size == 0 -%}
+        {%- assign handles = 'men-wears|women-wears|unisex-wears|mh-ldn-hoodies|winter-wear' | split: '|' -%}
+        {%- assign titles = 'Men Wears|Women Wears|Unisex Wears|MH LDN Hoodies|Summer Wears' | split: '|' -%}
+        {%- assign imgs = 'mh-london-tee-model.jpg|campaign-studio.jpg|goat-tee-model.jpg|mh-london-hoodie-model.jpg|property-tee-trio.jpg' | split: '|' -%}
+        {%- for handle in handles -%}
+          {%- assign col = collections[handle] -%}
+          <a class="collection-card" href="{{ col.url | default: '/collections/all' }}" data-reveal>
+            <span class="collection-card__media">
+              <img src="{{ imgs[forloop.index0] | asset_url }}" alt="" width="1122" height="1402"
+                   loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}">
+            </span>
+            <span class="collection-card__body">
+              <span class="collection-card__title">{{ titles[forloop.index0] }}</span>
+              <span class="collection-card__cta">View Collection {% render 'icon', name: 'arrow' %}</span>
+            </span>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
       {%- for block in section.blocks -%}
         {%- assign col = collections[block.settings.collection_handle] -%}
         {%- if col != blank -%}

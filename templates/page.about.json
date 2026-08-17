@@ -21,7 +21,7 @@
       }
     },
     "vision": {
-      "type": "editorial",
+      "type": "editorial-banner",
       "settings": {
         "image_asset": "property-tee-black.jpg",
         "image_alt": "Black Property Of MHL tee photographed with the MHL hangtag set",
