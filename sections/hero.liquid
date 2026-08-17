@@ -91,48 +91,7 @@
 
   {%- if section.blocks.size > 1 -%}
     <div class="hero__dots" role="tablist" aria-label="{{ 'sections.hero.choose_slide' | t }}">
-      {%- if section.blocks.size == 0 -%}
-    {%- assign eyebrows = 'New Arrival|Shop Today' | split: '|' -%}
-    {%- assign headings = 'Started With Nothing|Multiple Hustles London' | split: '|' -%}
-    {%- assign texts = 'Built on ambition, discipline, and the quiet deals made behind closed doors. The uniform for everyone who doesn’t rely on one lane.|The stacked lockup in silver and sky blue, printed large on heavyweight black cotton. Limited drop — once it’s gone, it’s gone.' | split: '|' -%}
-    {%- assign images = 'goat-tee-model.jpg|mh-london-tee-model.jpg' | split: '|' -%}
-    {%- assign alts = 'Model on a Peckham corner wearing the black Greatest Of All Time tee with denim shorts|Model outside Peckham Park Estate wearing the Multiple Hustles London tee' | split: '|' -%}
-    {%- assign ctas = 'Shop Now|Shop The Tee' | split: '|' -%}
-    {%- assign heights = '1448|1402' | split: '|' -%}
-    {%- assign widths = '1086|1122' | split: '|' -%}
-    {%- for image in images -%}
-      <div class="hero__slide{% if forloop.first %} is-active{% endif %}">
-        <div class="hero__media">
-          <img style="--focal:50% 30%" src="{{ image | asset_url }}" alt="{{ alts[forloop.index0] }}"
-               width="{{ widths[forloop.index0] }}" height="{{ heights[forloop.index0] }}"
-               {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
-        </div>
-        <div class="container">
-          <div class="hero__content">
-            <p class="eyebrow hero__eyebrow">{{ eyebrows[forloop.index0] }}</p>
-            {%- if forloop.first -%}
-              <h1 class="hero__title">{{ headings[forloop.index0] }}</h1>
-            {%- else -%}
-              <h2 class="hero__title">{{ headings[forloop.index0] }}</h2>
-            {%- endif -%}
-            <p class="hero__text">{{ texts[forloop.index0] }}</p>
-            <div class="hero__cta">
-              <a class="btn btn--light" href="{{ routes.all_products_collection_url }}">{{ ctas[forloop.index0] }}</a>
-              {%- if forloop.first -%}
-                <a class="btn btn--outline" href="/pages/about" style="--btn-fg:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)">Our Story</a>
-              {%- endif -%}
-            </div>
-          </div>
-        </div>
-      </div>
-    {%- endfor -%}
-    <div class="hero__dots" role="tablist" aria-label="Choose slide">
-      <button class="hero__dot is-active" type="button" role="tab" aria-label="Slide 1"></button>
-      <button class="hero__dot" type="button" role="tab" aria-label="Slide 2"></button>
-    </div>
-  {%- endif -%}
-
-  {%- for block in section.blocks -%}
+      {%- for block in section.blocks -%}
         <button class="hero__dot{% if forloop.first %} is-active{% endif %}" type="button" role="tab"
                 aria-label="{{ 'sections.hero.slide' | t: number: forloop.index }}"></button>
       {%- endfor -%}
@@ -167,7 +126,6 @@
       ]
     }
   ],
-  "presets": [{ "name": "Hero" }],
   "default": {
     "blocks": [
       { "type": "slide", "settings": {
