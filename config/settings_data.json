@@ -24,6 +24,332 @@
         "disabled": false,
         "settings": {}
       }
+    },
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "blocks": {
+          "b1": {
+            "type": "announcement",
+            "settings": {
+              "text": "Free UK shipping over £100"
+            }
+          },
+          "b2": {
+            "type": "announcement",
+            "settings": {
+              "text": "Limited drops — once it's gone, it's gone"
+            }
+          },
+          "b3": {
+            "type": "announcement",
+            "settings": {
+              "text": "Dispatched within 24–48 hours"
+            }
+          },
+          "b4": {
+            "type": "announcement",
+            "settings": {
+              "text": "Worldwide delivery"
+            }
+          }
+        },
+        "block_order": [
+          "b1",
+          "b2",
+          "b3",
+          "b4"
+        ],
+        "settings": {}
+      },
+      "hero": {
+        "type": "hero",
+        "blocks": {
+          "b1": {
+            "type": "slide",
+            "settings": {
+              "eyebrow": "New Arrival",
+              "heading": "Started With Nothing",
+              "text": "Built on ambition, discipline, and the quiet deals made behind closed doors. The uniform for everyone who doesn't rely on one lane.",
+              "cta_label": "Shop Now",
+              "cta_url": "/collections/all",
+              "cta2_label": "Our Story",
+              "cta2_url": "/pages/about",
+              "focal_x": 50,
+              "focal_y": 30,
+              "image_asset": "goat-tee-model.jpg",
+              "image_asset_w": 1086,
+              "image_asset_h": 1448,
+              "image_alt": "Model on a Peckham corner wearing the black Greatest Of All Time tee with denim shorts"
+            }
+          },
+          "b2": {
+            "type": "slide",
+            "settings": {
+              "eyebrow": "Shop Today",
+              "heading": "Multiple Hustles London",
+              "text": "The stacked lockup in silver and sky blue, printed large on heavyweight black cotton. Limited drop — once it's gone, it's gone.",
+              "cta_label": "Shop The Tee",
+              "cta_url": "/collections/all",
+              "focal_x": 50,
+              "focal_y": 30,
+              "image_asset": "mh-london-tee-model.jpg",
+              "image_asset_w": 1122,
+              "image_asset_h": 1402,
+              "image_alt": "Model outside Peckham Park Estate wearing the Multiple Hustles London tee"
+            }
+          }
+        },
+        "block_order": [
+          "b1",
+          "b2"
+        ],
+        "settings": {
+          "aria_label": "Featured collections"
+        }
+      },
+      "value-props": {
+        "type": "value-props",
+        "blocks": {
+          "b1": {
+            "type": "value",
+            "settings": {
+              "icon": "truck",
+              "heading": "Free UK Shipping",
+              "text": "On all orders over £100"
+            }
+          },
+          "b2": {
+            "type": "value",
+            "settings": {
+              "icon": "refresh",
+              "heading": "14-Day Returns",
+              "text": "Unworn, tags intact"
+            }
+          },
+          "b3": {
+            "type": "value",
+            "settings": {
+              "icon": "globe",
+              "heading": "Worldwide Delivery",
+              "text": "Dispatched in 24–48 hours"
+            }
+          },
+          "b4": {
+            "type": "value",
+            "settings": {
+              "icon": "shield",
+              "heading": "Limited Drops",
+              "text": "Once it's gone, it's gone"
+            }
+          }
+        },
+        "block_order": [
+          "b1",
+          "b2",
+          "b3",
+          "b4"
+        ],
+        "settings": {}
+      },
+      "collection-list": {
+        "type": "collection-list",
+        "blocks": {
+          "b1": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "men-wears",
+              "title": "Men Wears",
+              "image_asset": "mh-london-tee-model.jpg",
+              "image_asset_w": 1122,
+              "image_asset_h": 1402
+            }
+          },
+          "b2": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "women-wears",
+              "title": "Women Wears",
+              "image_asset": "campaign-studio.jpg",
+              "image_asset_w": 1401,
+              "image_asset_h": 1123
+            }
+          },
+          "b3": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "unisex-wears",
+              "title": "Unisex Wears",
+              "image_asset": "goat-tee-model.jpg",
+              "image_asset_w": 1086,
+              "image_asset_h": 1448
+            }
+          },
+          "b4": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "mh-ldn-hoodies",
+              "title": "MH LDN Hoodies",
+              "image_asset": "mh-london-hoodie-model.jpg",
+              "image_asset_w": 1122,
+              "image_asset_h": 1402
+            }
+          },
+          "b5": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "winter-wear",
+              "title": "Summer Wears",
+              "image_asset": "property-tee-trio.jpg",
+              "image_asset_w": 1402,
+              "image_asset_h": 1122
+            }
+          }
+        },
+        "block_order": [
+          "b1",
+          "b2",
+          "b3",
+          "b4",
+          "b5"
+        ],
+        "settings": {
+          "eyebrow": "Collection",
+          "heading": "Shop by Category"
+        }
+      },
+      "featured-collection": {
+        "type": "featured-collection",
+        "settings": {
+          "eyebrow": "New Arrival",
+          "heading": "Latest Wears",
+          "collection_handle": "unisex-wears",
+          "count": 4
+        }
+      },
+      "manifesto": {
+        "type": "manifesto",
+        "settings": {
+          "cta_url": "/pages/about"
+        }
+      },
+      "editorial": {
+        "type": "editorial",
+        "settings": {
+          "eyebrow": "Brand Vision",
+          "heading": "Build in the Shadows. Win in Plain Sight.",
+          "text": "True success doesn't need to shout. It shows up in the details — the quality of the fabric, the cut of the silhouette, and the confidence of the person wearing it.",
+          "cta_label": "Shop Hoodies",
+          "cta_url": "/collections/mh-ldn-hoodies",
+          "image_asset": "mh-london-hoodie-model.jpg",
+          "image_asset_w": 1122,
+          "image_asset_h": 1402,
+          "image_alt": "Model in Peckham wearing the black MH London hoodie",
+          "focal_x": 50,
+          "focal_y": 18
+        }
+      },
+      "marquee-strip": {
+        "type": "marquee-strip",
+        "blocks": {
+          "b1": {
+            "type": "item",
+            "settings": {
+              "text": "Started With Nothing"
+            }
+          },
+          "b2": {
+            "type": "item",
+            "settings": {
+              "text": "Dreamers Only"
+            }
+          },
+          "b3": {
+            "type": "item",
+            "settings": {
+              "text": "Born in London"
+            }
+          },
+          "b4": {
+            "type": "item",
+            "settings": {
+              "text": "Limited Drops"
+            }
+          }
+        },
+        "block_order": [
+          "b1",
+          "b2",
+          "b3",
+          "b4"
+        ],
+        "settings": {}
+      },
+      "split-feature": {
+        "type": "split-feature",
+        "settings": {
+          "reverse": true,
+          "eyebrow": "Brand New",
+          "heading": "Unisex Wears",
+          "text": "These are versatile, gender-neutral wears designed to be worn by individuals of any gender, promoting inclusivity and flexibility in fashion.",
+          "cta_label": "Shop This",
+          "cta_url": "/collections/unisex-wears",
+          "cta2_label": "Shop All",
+          "cta2_url": "/collections/all",
+          "image_asset": "property-tee-trio.jpg",
+          "image_asset_w": 1402,
+          "image_asset_h": 1122,
+          "image_alt": "Property Of MHL tees laid out in white, grey marl and black with MHL hangtags"
+        }
+      },
+      "curated-collection": {
+        "type": "curated-collection",
+        "settings": {
+          "eyebrow": "Special For You",
+          "heading": "You Deserves More",
+          "collection_handle": "you-deserves-more-1",
+          "count": 4
+        }
+      },
+      "testimonials": {
+        "type": "testimonials",
+        "blocks": {
+          "b1": {
+            "type": "testimonial",
+            "settings": {
+              "stars": 5,
+              "author": "J.K., Verified",
+              "quote": "The MH London Hoodie is heavy — in a good way. You can feel the quality of the fabric immediately. It doesn't lose shape after a wash. Proper investment piece."
+            }
+          },
+          "b2": {
+            "type": "testimonial",
+            "settings": {
+              "stars": 5,
+              "author": "Sarah M., Verified Customer",
+              "quote": "I was skeptical about the 'unisex' fit, but the Multiple Hustles Shorts sit perfectly. Comfortable enough for the grind, sharp enough for the meet."
+            }
+          },
+          "b3": {
+            "type": "testimonial",
+            "settings": {
+              "stars": 5,
+              "author": "David O., Verified Customer",
+              "quote": "Quality speaks for itself. You can feel the intention in every detail. Delivery was faster than expected, too."
+            }
+          }
+        },
+        "block_order": [
+          "b1",
+          "b2",
+          "b3"
+        ],
+        "settings": {}
+      },
+      "newsletter": {
+        "type": "newsletter",
+        "settings": {}
+      }
     }
   }
 }
