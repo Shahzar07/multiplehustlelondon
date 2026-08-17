@@ -1,6 +1,6 @@
 {
-  "type": "header",
-  "name": "App section group",
+  "type": "footer",
+  "name": "Foxify footer group",
   "sections": {},
   "order": []
 }
