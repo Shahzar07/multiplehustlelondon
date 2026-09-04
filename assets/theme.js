@@ -208,6 +208,59 @@
     try { variants = JSON.parse(dataEl.textContent); } catch (e) { return; }
     if (!variants || !variants.length) return;
 
+    var gallery = $('[data-product-gallery]');
+    var colorIndexEl = $('[data-color-option-index]');
+    var colorIndex = colorIndexEl ? Number(colorIndexEl.textContent.trim()) : 0;
+
+    /* Bring the shot for the chosen variant to the front of the gallery.
+
+       Prefer the media the merchant attached to the variant in admin. When
+       none is attached — which is the common case on this store — fall back to
+       the first media whose alt text names the chosen colour, so "White" still
+       lands on the white shot. Reordering rather than hiding keeps every image
+       reachable. */
+    function showMediaFor(variant, chosen) {
+      if (!gallery) return;
+      var figures = $$('.product__figure', gallery);
+      if (figures.length < 2) return;
+
+      var targets = [];
+      function want(fig) { if (fig && targets.indexOf(fig) === -1) targets.push(fig); }
+
+      if (variant && variant.media_id) {
+        figures.forEach(function (fig) {
+          if (fig.dataset.mediaId === String(variant.media_id)) want(fig);
+        });
+      }
+
+      // Every shot of this colour follows the variant's own, so picking Pink
+      // groups the pink photographs together instead of splitting them around
+      // the grey ones.
+      if (colorIndex > 0) {
+        var color = (chosen[colorIndex - 1] || '').toLowerCase().trim();
+        if (color) {
+          figures.forEach(function (fig) {
+            if ((fig.dataset.mediaAlt || '').indexOf(color) !== -1) want(fig);
+          });
+        }
+      }
+
+      if (!targets.length) return;
+
+      // Already in place? Leave the DOM — and the shopper's scroll — alone.
+      var settled = targets.every(function (fig, i) { return figures[i] === fig; });
+      if (settled) return;
+
+      for (var i = targets.length - 1; i >= 0; i--) {
+        gallery.insertBefore(targets[i], gallery.firstElementChild);
+      }
+
+      // Re-trigger the fade so the swap reads as a change, not a flicker.
+      gallery.classList.remove('is-swapping');
+      void gallery.offsetWidth;
+      gallery.classList.add('is-swapping');
+    }
+
     function selectedOptions() {
       var chosen = [];
       $$('[data-option-index][aria-pressed="true"]', form).forEach(function (btn) {
@@ -238,6 +291,8 @@
       var price = $('[data-price]');
       if (price) price.textContent = match.price_formatted;
 
+      showMediaFor(match, chosen);
+
       var button = $('[data-add-to-cart]', form);
       if (!button) return;
       button.disabled = !match.available;
@@ -260,6 +315,37 @@
     });
 
     update();
+  }
+
+  /* ----------------------------------------------------------- card swatches */
+
+  /* A colour swatch on a grid card swaps that card's photograph and points its
+     Quick add form at the matching variant, so the grid behaves the way the
+     product page does. Delegated, so cards rendered later are covered too. */
+  function initCardSwatches() {
+    document.addEventListener('click', function (event) {
+      var swatch = event.target.closest('[data-card-swatch]');
+      if (!swatch) return;
+      event.preventDefault();
+
+      var card = swatch.closest('.product-card');
+      if (!card) return;
+
+      var name = swatch.getAttribute('data-card-swatch');
+      var front = $('[data-card-front]', card);
+      if (front && swatch.dataset.front) {
+        front.src = swatch.dataset.front;
+        front.removeAttribute('srcset');
+        front.alt = (front.dataset.title || '') + ' \u2014 ' + name;
+      }
+
+      var idField = $('[data-quick-add-id]', card);
+      if (idField && swatch.dataset.variantId) idField.value = swatch.dataset.variantId;
+
+      $$('[data-card-swatch]', card).forEach(function (btn) {
+        btn.setAttribute('aria-pressed', String(btn === swatch));
+      });
+    });
   }
 
   /* ---------------------------------------------------------------- header */
@@ -323,6 +409,7 @@
     initStickyHeader();
     initHero();
     initProductForm();
+    initCardSwatches();
     observeReveals();
   }
 

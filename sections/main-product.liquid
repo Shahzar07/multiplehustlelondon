@@ -15,15 +15,16 @@
     </nav>
 
     <div class="product">
-      <div class="product__gallery">
+      <div class="product__gallery" data-product-gallery>
         {%- if product.media.size > 0 -%}
           {%- for media in product.media -%}
-            <figure class="product__figure">
+            <figure class="product__figure" data-media-id="{{ media.id }}"
+                    data-media-alt="{{ media.alt | default: product.title | downcase | escape }}">
               <img src="{{ media | image_url: width: 1400 }}"
                    srcset="{{ media | image_url: width: 700 }} 700w, {{ media | image_url: width: 1400 }} 1400w"
                    sizes="(min-width: 1000px) 55vw, 100vw"
                    alt="{{ media.alt | default: product.title | escape }}"
-                   width="1400" height="1867"
+                   width="1400" height="1750"
                    {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
             </figure>
           {%- endfor -%}
@@ -67,8 +68,9 @@
                     {%- if option.selected_value == value -%}{%- assign is_selected = true -%}{%- endif -%}
                     {%- if name_down == 'colour' or name_down == 'color' -%}
                       <button class="option-btn option-swatch" type="button"
-                              style="--swatch:{{ value | downcase | replace: ' ', '' }}"
+                              style="{% render 'color-swatch-style', value: value, product: product %}"
                               data-option-index="{{ opt_index }}" data-option-value="{{ value | escape }}"
+                              title="{{ value | escape }}"
                               aria-pressed="{{ is_selected }}">
                         <span class="visually-hidden">{{ value }}</span>
                       </button>
@@ -121,7 +123,17 @@
   </div>
 </section>
 
-{%- comment -%} Variant map for the option pickers — read by theme.js. {%- endcomment -%}
+{%- comment -%}
+  Variant map for the option pickers — read by theme.js. `color_option_index`
+  lets the picker fall back to matching a media item by its alt text when the
+  merchant has not attached images to variants in admin.
+{%- endcomment -%}
+{%- assign color_index = 0 -%}
+{%- for option in product.options_with_values -%}
+  {%- assign n = option.name | downcase -%}
+  {%- if n == 'colour' or n == 'color' -%}{%- assign color_index = forloop.index -%}{%- endif -%}
+{%- endfor -%}
+<script type="application/json" data-color-option-index>{{ color_index }}</script>
 <script type="application/json" data-variant-data>
 [
   {%- for variant in product.variants -%}
@@ -129,7 +141,8 @@
       "id": {{ variant.id }},
       "options": {{ variant.options | json }},
       "available": {{ variant.available }},
-      "price_formatted": {{ variant.price | money | json }}
+      "price_formatted": {{ variant.price | money | json }},
+      "media_id": {% if variant.featured_media %}{{ variant.featured_media.id }}{% else %}null{% endif %}
     }{%- unless forloop.last -%},{%- endunless -%}
   {%- endfor -%}
 ]

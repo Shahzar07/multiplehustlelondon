@@ -1,0 +1,68 @@
+{%- comment -%}
+  Resolves a colour option value to a CSS background declaration.
+
+  The theme used to write `background: {{ value | downcase | replace: ' ', '' }}`,
+  which only ever produced valid CSS for the handful of names that happen to be
+  CSS keywords. "Grey Marl" became `greymarl`, "Ice Blue" became `iceblue` —
+  both invalid, so those swatches rendered blank.
+
+  Resolution order:
+    1. The swatch configured on the option value in Shopify admin (colour or
+       image), which is authoritative when the merchant has set it.
+    2. The name map below — longest names first, so "off white" wins over
+       "white" and "royal blue" over "blue".
+    3. The image of the first variant carrying this value, cropped into the dot.
+    4. A neutral grey, so a swatch is never invisible.
+
+  Accepts: value (option value or string, required), product (optional, for 3).
+  Outputs: the contents of a style attribute, e.g. `background:#111111`.
+{%- endcomment -%}
+
+{%- liquid
+  assign swatch_css = ''
+
+  if value.swatch.color
+    assign swatch_css = 'background:' | append: value.swatch.color
+  elsif value.swatch.image
+    assign swatch_url = value.swatch.image | image_url: width: 80
+    assign swatch_css = 'background-image:url(' | append: swatch_url | append: ');background-size:cover;background-position:center'
+  endif
+-%}
+
+{%- if swatch_css == blank -%}
+  {%- liquid
+    capture value_name
+      echo value
+    endcapture
+    assign key = value_name | downcase | strip | replace: '-', ' ' | replace: '/', ' ' | replace: '_', ' '
+
+    assign map = 'off white:#f1ede4,antique white:#f1ede4,white:#f7f7f7,ivory:#f4efe4,bone:#e8e1d4,cream:#f0e9dc,ecru:#e9e0cd,beige:#e4d9c6,oatmeal:#ded4c0,sand:#ded1b8,stone:#bcb4a6,taupe:#a99e8f,tan:#c9a87c,camel:#c19a6b,chocolate:#4a2f21,brown:#6b4a32,khaki:#9b8f6a,olive:#6b6a3a,forest green:#20472f,sage:#9caf88,mint:#a8e0c0,green:#2f7d4f,teal:#1f7a78,turquoise:#2fb6a8,aqua:#5fd0d0,ice blue:#cfe3ee,baby blue:#b7d6ea,powder blue:#b7d6ea,sky blue:#87ceeb,light blue:#a9cce3,royal blue:#1f43a8,navy:#1b2440,denim:#3c5a80,cobalt:#2a4bd8,blue:#2350a8,lilac:#c9a6dd,lavender:#c3b1e1,violet:#7a4fb0,purple:#6b3fa0,plum:#5c2a4a,magenta:#c9268c,fuchsia:#d5449a,baby pink:#f2c4d2,hot pink:#e8478f,rose:#dc7f92,blush:#e8c4c0,pink:#e79bb5,burgundy:#6d1f2b,maroon:#6d1f2b,wine:#5c1a2a,cherry:#b31627,red:#d8291c,rust:#b5502a,terracotta:#c56a4a,peach:#f2c3a7,coral:#f08a70,orange:#e8712f,apricot:#f0b27a,mustard:#d9a520,gold:#d4af37,yellow:#f5c518,lemon:#f4e04d,charcoal:#3a3a3a,graphite:#4a4a4a,jet black:#0d0d0d,black:#111111,grey marl:#a3a3a3,gray marl:#a3a3a3,marl:#a3a3a3,heather grey:#adadad,heather gray:#adadad,light grey:#c4c4c4,light gray:#c4c4c4,dark grey:#5a5a5a,dark gray:#5a5a5a,grey:#9d9d9d,gray:#9d9d9d,silver:#c9c9c9,natural:#e2dccd,clear:#e8e8e8' | split: ','
+
+    for pair in map
+      assign parts = pair | split: ':'
+      assign name = parts | first
+      if key contains name
+        assign swatch_css = 'background:' | append: parts.last
+        break
+      endif
+    endfor
+  -%}
+{%- endif -%}
+
+{%- if swatch_css == blank and product -%}
+  {%- liquid
+    capture value_name
+      echo value
+    endcapture
+    for variant in product.variants
+      if variant.options contains value_name and variant.featured_image
+        assign variant_url = variant.featured_image | image_url: width: 80
+        assign swatch_css = 'background-image:url(' | append: variant_url | append: ');background-size:cover;background-position:center'
+        break
+      endif
+    endfor
+  -%}
+{%- endif -%}
+
+{%- if swatch_css == blank -%}{%- assign swatch_css = 'background:#d8d8d8' -%}{%- endif -%}
+{{- swatch_css -}}

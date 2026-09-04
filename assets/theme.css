@@ -624,7 +624,7 @@ h1, h2, h3, h4, h5 {
   overflow: hidden;
   background: rgb(var(--card));
 }
-.cart-line__media img { width: 100%; height: 100%; object-fit: cover; }
+.cart-line__media img { width: 100%; height: 100%; padding: 2px; object-fit: contain; }
 
 .cart-line__title { font-size: var(--text-base); font-weight: 600; line-height: 1.3; }
 .cart-line__variant { font-size: var(--text-sm); color: var(--muted); }
@@ -698,7 +698,7 @@ h1, h2, h3, h4, h5 {
   overflow: hidden;
   background: rgb(var(--card));
 }
-.search-result__media img { width: 100%; height: 100%; object-fit: cover; }
+.search-result__media img { width: 100%; height: 100%; padding: 2px; object-fit: contain; }
 
 /* --------------------------------------------------------------------------
    9. Hero slideshow
@@ -896,9 +896,13 @@ h1, h2, h3, h4, h5 {
 /* Product imagery sits on white so the packshots read as one clean grid —
    the studio backdrop of each shot is padded out to the same 3:4 frame, so
    the image meets the card edge with no letterbox. */
+/* Every tile is the same 4:5 box whatever shape the photograph is, and the
+   image is fitted inside it rather than cropped to fill. The catalogue mixes
+   square studio shots with tall lifestyle frames, and `cover` was scaling the
+   square ones up and cutting the garment off at the shoulders and hem. */
 .product-card__media {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   border-radius: var(--radius-block);
   overflow: hidden;
   background: #fff;
@@ -911,7 +915,9 @@ h1, h2, h3, h4, h5 {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  padding: var(--space-3);
+  object-fit: contain;
+  object-position: center;
   transition: opacity 0.6s var(--ease), transform 1.1s var(--ease-out);
 }
 
@@ -972,12 +978,39 @@ h1, h2, h3, h4, h5 {
 .product-card__price { font-size: var(--text-base); font-weight: 600; }
 .product-card__price--was { color: var(--muted); text-decoration: line-through; font-weight: 500; }
 
-.product-card__swatches { display: flex; gap: 5px; margin-block-start: var(--space-2); }
-.product-card__swatch {
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.18);
+/* Card swatches sit above the title link's full-card overlay so they stay
+   clickable, and carry a real touch target rather than a 12px dot. */
+.product-card__swatches {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block-start: var(--space-2);
 }
+.product-card__swatch {
+  position: relative;
+  width: 18px; height: 18px;
+  padding: 0;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.18);
+  cursor: pointer;
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.product-card__swatch::before {
+  /* Invisible 44px hit area — the dot itself stays small. */
+  content: '';
+  position: absolute;
+  inset: -13px;
+  border-radius: 50%;
+}
+.product-card__swatch:hover { transform: scale(1.12); }
+.product-card__swatch[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.2), 0 0 0 2px rgb(var(--paper)), 0 0 0 3px rgb(var(--ink));
+}
+.product-card__swatch:focus-visible { outline: 2px solid rgb(var(--ink)); outline-offset: 3px; }
 
 /* --------------------------------------------------------------------------
    12. Editorial blocks
@@ -1368,13 +1401,15 @@ h1, h2, h3, h4, h5 {
 .product__gallery { display: grid; gap: var(--space-3); }
 @media (min-width: 700px) { .product__gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
+/* Same rule as the grid tiles: one ratio for every frame, image fitted inside
+   it, never cropped. */
 .product__figure {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   border-radius: var(--radius-block);
   overflow: hidden;
   background: rgb(var(--card));
 }
-.product__figure:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
+.product__figure:first-child { grid-column: 1 / -1; }
 
 /* A two-image gallery stacks full width — a half-width second frame would
    leave a hole beside it. Three or more fall back to the 2-up mosaic. */
@@ -1383,7 +1418,21 @@ h1, h2, h3, h4, h5 {
     grid-template-columns: minmax(0, 1fr);
   }
 }
-.product__figure img { width: 100%; height: 100%; object-fit: cover; }
+.product__figure img {
+  width: 100%;
+  height: 100%;
+  padding: var(--space-3);
+  object-fit: contain;
+  object-position: center;
+}
+
+/* The gallery reorders when a variant is picked — fade it so the swap reads as
+   a change rather than a flicker. */
+.product__gallery.is-swapping .product__figure { animation: figure-in 0.45s var(--ease) both; }
+@keyframes figure-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .product__gallery.is-swapping .product__figure { animation: none; }
+}
 
 .product__info { position: sticky; top: calc(var(--header-height) + var(--space-5)); }
 @media (max-width: 999px) { .product__info { position: static; } }
@@ -1435,17 +1484,23 @@ h1, h2, h3, h4, h5 {
   box-shadow: none;
 }
 
+/* The colour itself is set inline by `color-swatch-style`. It used to be
+   painted only in the pressed state, which left every unselected swatch as an
+   empty outlined circle. */
 .option-swatch {
   width: 2.25rem; height: 2.25rem;
   min-width: 0;
   padding: 0;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 1px var(--border-strong);
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.2);
 }
+.option-swatch:hover { box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.2), 0 0 0 2px rgb(var(--paper)), 0 0 0 3px rgb(var(--ink) / 0.35); }
 .option-swatch[aria-pressed='true'] {
-  background: var(--swatch, transparent);
   box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.2), 0 0 0 2px rgb(var(--paper)), 0 0 0 4px rgb(var(--ink));
 }
+.option-swatch:focus-visible { outline: 2px solid rgb(var(--ink)); outline-offset: 4px; }
 
 .product__actions { display: grid; gap: var(--space-3); margin-block-start: var(--space-7); }
 
