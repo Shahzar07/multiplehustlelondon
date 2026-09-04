@@ -1426,6 +1426,10 @@ h1, h2, h3, h4, h5 {
   object-position: center;
 }
 
+/* Hidden by the variant picker — the grid would otherwise lay out an empty
+   cell for a figure the UA has display:none'd only by attribute default. */
+.product__gallery .product__figure[hidden] { display: none; }
+
 /* The gallery reorders when a variant is picked — fade it so the swap reads as
    a change rather than a flicker. */
 .product__gallery.is-swapping .product__figure { animation: figure-in 0.45s var(--ease) both; }

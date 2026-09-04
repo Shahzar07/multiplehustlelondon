@@ -134,6 +134,12 @@
   {%- if n == 'colour' or n == 'color' -%}{%- assign color_index = forloop.index -%}{%- endif -%}
 {%- endfor -%}
 <script type="application/json" data-color-option-index>{{ color_index }}</script>
+{%- comment -%}
+  Which photograph belongs to which colourway. Nothing on this store attaches
+  images to variants in admin, so this is resolved from filename, alt text and
+  upload order — see the snippet for the rules.
+{%- endcomment -%}
+<script type="application/json" data-media-colors>{% render 'variant-media-map', product: product %}</script>
 <script type="application/json" data-variant-data>
 [
   {%- for variant in product.variants -%}

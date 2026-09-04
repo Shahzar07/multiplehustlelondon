@@ -1,0 +1,222 @@
+{%- comment -%}
+  Works out which photograph belongs to which colourway and emits it as JSON
+  keyed by media id: {"42695232520343":"Black","42695232553111":"White"}.
+
+  Shopify's own answer is `variant.featured_media`, set by attaching an image to
+  a variant in admin. Nothing on this store has that set, so the theme has to
+  infer it. Resolution order, per media:
+
+    1. The variant it is attached to in admin — authoritative, ends the matter.
+    2. Its filename, when that names exactly one of the product's colours
+       ("shorts-grey-front.jpg" -> Grey Marl).
+    3. Its alt text, same rule, consulted only when the filename is silent —
+       prose is a looser signal than a filename.
+    4. Position. Whatever is left, naming no colour anywhere, is dealt out to
+       the colours still without a photograph, in order — which is how
+       merchants upload them. This is what resolves the crop tee, whose two
+       product shots are both just alt="hustle baby crop tee".
+
+  A media naming TWO colours ("two models ... in black and white") is ambiguous
+  and is deliberately left unowned: it stays visible for every colourway and is
+  never promoted as one colour's shot. Answering wrongly is worse than not
+  answering — that group photo was being shown for both Black and White.
+
+  Accepts: product (required).
+{%- endcomment -%}
+
+{%- liquid
+  assign color_option = false
+  for option in product.options_with_values
+    assign opt_name = option.name | downcase
+    if opt_name == 'colour' or opt_name == 'color'
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+{%- if color_option == false or product.media.size == 0 -%}{}{%- else -%}
+{%- liquid
+  assign values = color_option.values
+
+  # Words that never identify a colour on their own.
+  assign skip_words = 'off light dark deep pale bright neon baby hot heather'
+
+  # One token per media, in source order: the owning colour's index as a
+  # string, 'amb' when two or more colours are named, 'none' when nothing is.
+  assign owners = ''
+
+  for media in product.media
+    assign owner = 'none'
+
+    # --- 1. attached to a variant in admin ------------------------------
+    for variant in product.variants
+      if variant.featured_media.id == media.id
+        for value in values
+          capture value_name
+            echo value
+          endcapture
+          capture idx_s
+            echo forloop.index0
+          endcapture
+          if variant.options contains value_name
+            assign owner = idx_s
+            break
+          endif
+        endfor
+      endif
+      unless owner == 'none'
+        break
+      endunless
+    endfor
+
+    # --- 2/3. filename, then alt text -----------------------------------
+    if owner == 'none'
+      assign file_part = media.preview_image.src | default: '' | split: '?' | first | split: '/' | last | downcase | replace: '-', ' ' | replace: '_', ' ' | replace: '.', ' '
+      assign alt_part = media.alt | default: '' | downcase | replace: '-', ' ' | replace: '_', ' '
+      assign haystacks = file_part | append: '||' | append: alt_part | split: '||'
+
+      for hay in haystacks
+        assign hits = ','
+        assign remaining = hay
+
+        # Multi-word names first, and each match consumes the text it used,
+        # so "ice blue" can never also be counted as "blue".
+        for value in values
+          capture value_name
+            echo value
+          endcapture
+          capture idx_s
+            echo forloop.index0
+          endcapture
+          assign needle = value_name | downcase | strip
+          if needle contains ' '
+            if remaining contains needle
+              assign hits = hits | append: idx_s | append: ','
+              assign remaining = remaining | replace: needle, ' '
+            endif
+          endif
+        endfor
+
+        # Then single-word names, and the distinctive words of the rest.
+        for value in values
+          capture value_name
+            echo value
+          endcapture
+          capture idx_s
+            echo forloop.index0
+          endcapture
+          capture idx_probe
+            echo ','
+            echo idx_s
+            echo ','
+          endcapture
+          unless hits contains idx_probe
+            assign needle = value_name | downcase | strip
+            assign matched = false
+            unless needle contains ' '
+              if remaining contains needle
+                assign matched = true
+                assign remaining = remaining | replace: needle, ' '
+              endif
+            endunless
+            unless matched
+              assign words = needle | split: ' '
+              for word in words
+                assign word_size = word | size
+                unless skip_words contains word
+                  if word_size >= 4
+                    if remaining contains word
+                      assign matched = true
+                      assign remaining = remaining | replace: word, ' '
+                      break
+                    endif
+                  endif
+                endunless
+              endfor
+            endunless
+            if matched
+              assign hits = hits | append: idx_s | append: ','
+            endif
+          endunless
+        endfor
+
+        assign hit_list = hits | remove_first: ',' | split: ','
+        if hit_list.size == 1
+          assign owner = hit_list | first
+          break
+        endif
+        if hit_list.size > 1
+          assign owner = 'amb'
+          break
+        endif
+      endfor
+    endif
+
+    assign owners = owners | append: owner | append: ','
+  endfor
+
+  assign owner_list = owners | split: ','
+
+  # --- 4. deal the colour-silent leftovers to the colours still empty ----
+  assign needy = ''
+  for value in values
+    capture idx_s
+      echo forloop.index0
+    endcapture
+    assign owned = false
+    for owner in owner_list
+      if owner == idx_s
+        assign owned = true
+        break
+      endif
+    endfor
+    unless owned
+      assign needy = needy | append: idx_s | append: ','
+    endunless
+  endfor
+
+  assign free = ''
+  for owner in owner_list
+    capture idx_s
+      echo forloop.index0
+    endcapture
+    if owner == 'none'
+      assign free = free | append: idx_s | append: ','
+    endif
+  endfor
+
+  assign dist = ','
+  assign needy_list = needy | split: ','
+  assign free_list = free | split: ','
+  if needy_list.size > 0
+    if free_list.size > 0
+      assign per = free_list.size | divided_by: needy_list.size
+      if per < 1
+        assign per = 1
+      endif
+      assign cursor = 0
+      for needy_idx in needy_list
+        for step in (1..per)
+          if cursor < free_list.size
+            assign media_idx = free_list[cursor]
+            assign dist = dist | append: media_idx | append: '=' | append: needy_idx | append: ','
+            assign cursor = cursor | plus: 1
+          endif
+        endfor
+      endfor
+    endif
+  endif
+-%}
+{%- capture pairs -%}
+{%- for media in product.media -%}
+{%- capture media_idx -%}{{ forloop.index0 }}{%- endcapture -%}
+{%- assign owner = owner_list[forloop.index0] -%}
+{%- for value in values -%}
+{%- capture color_idx -%}{{ forloop.index0 }}{%- endcapture -%}
+{%- capture probe -%},{{ media_idx }}={{ color_idx }},{%- endcapture -%}
+{%- if owner == color_idx -%}"{{ media.id }}":{{ value | json }},{%- elsif dist contains probe -%}"{{ media.id }}":{{ value | json }},{%- endif -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endcapture -%}
+{{ '{' }}{{ pairs | strip | remove_last: ',' }}{{ '}' }}
+{%- endif -%}

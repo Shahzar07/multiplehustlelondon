@@ -60,6 +60,7 @@
     one swaps the card's photograph to that colourway and points Quick add at
     the matching variant, so the grid behaves the same way the product page does.
   {%- endcomment -%}
+  {%- capture card_media_map -%}{% render 'variant-media-map', product: product %}{%- endcapture -%}
   {%- for option in product.options_with_values -%}
     {%- assign name_down = option.name | downcase -%}
     {%- if name_down == 'colour' or name_down == 'color' -%}
@@ -80,15 +81,14 @@
               if swatch_variant and swatch_variant.featured_image
                 assign swatch_image = swatch_variant.featured_image | image_url: width: 1000
               else
-                comment
-                  No image attached to the variant in admin — fall back to the
-                  first media whose alt text names this colour, the same way the
-                  product page's picker does.
-                endcomment
-                assign needle = value_name | downcase
+                # No image attached to the variant in admin. Use the same
+                # resolution the product page uses, so a card and its product
+                # page never disagree about which shot is which colour.
+                assign probe = '"' | append: value_name | append: '"'
                 for media in product.media
-                  assign media_alt = media.alt | default: '' | downcase
-                  if media_alt contains needle
+                  assign key = '"' | append: media.id | append: '":'
+                  assign pair = key | append: probe
+                  if card_media_map contains pair
                     assign swatch_image = media | image_url: width: 1000
                     break
                   endif

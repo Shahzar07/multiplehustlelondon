@@ -212,6 +212,15 @@
     var colorIndexEl = $('[data-color-option-index]');
     var colorIndex = colorIndexEl ? Number(colorIndexEl.textContent.trim()) : 0;
 
+    // { mediaId: colourName } — resolved at render time. Media absent from the
+    // map belong to no single colourway (a group shot, a packaging detail) and
+    // stay on show whatever is selected.
+    var mediaColors = {};
+    var mediaColorsEl = $('[data-media-colors]');
+    if (mediaColorsEl) {
+      try { mediaColors = JSON.parse(mediaColorsEl.textContent) || {}; } catch (e) { mediaColors = {}; }
+    }
+
     /* Bring the shot for the chosen variant to the front of the gallery.
 
        Prefer the media the merchant attached to the variant in admin. When
@@ -219,41 +228,44 @@
        the first media whose alt text names the chosen colour, so "White" still
        lands on the white shot. Reordering rather than hiding keeps every image
        reachable. */
-    function showMediaFor(variant, chosen) {
-      if (!gallery) return;
+    /* Show the chosen colourway and hide the other colourways' shots.
+
+       Shots belonging to no single colour stay visible and keep their place, so
+       a campaign or packaging image is still reachable whatever is selected.
+       If nothing in the gallery is attributed to a colour there is nothing
+       trustworthy to switch to, and the gallery is left exactly as it is. */
+    function showMediaFor(chosen) {
+      if (!gallery || colorIndex < 1) return;
+
       var figures = $$('.product__figure', gallery);
       if (figures.length < 2) return;
 
-      var targets = [];
-      function want(fig) { if (fig && targets.indexOf(fig) === -1) targets.push(fig); }
+      var color = chosen[colorIndex - 1];
+      if (!color) return;
 
-      if (variant && variant.media_id) {
-        figures.forEach(function (fig) {
-          if (fig.dataset.mediaId === String(variant.media_id)) want(fig);
-        });
-      }
+      var mine = [];
+      var others = [];
+      var shared = [];
 
-      // Every shot of this colour follows the variant's own, so picking Pink
-      // groups the pink photographs together instead of splitting them around
-      // the grey ones.
-      if (colorIndex > 0) {
-        var color = (chosen[colorIndex - 1] || '').toLowerCase().trim();
-        if (color) {
-          figures.forEach(function (fig) {
-            if ((fig.dataset.mediaAlt || '').indexOf(color) !== -1) want(fig);
-          });
-        }
-      }
+      figures.forEach(function (fig) {
+        var owner = mediaColors[fig.dataset.mediaId];
+        if (!owner) shared.push(fig);
+        else if (owner === color) mine.push(fig);
+        else others.push(fig);
+      });
 
-      if (!targets.length) return;
+      if (!mine.length && !others.length) return;
 
-      // Already in place? Leave the DOM — and the shopper's scroll — alone.
-      var settled = targets.every(function (fig, i) { return figures[i] === fig; });
-      if (settled) return;
+      others.forEach(function (fig) { fig.hidden = true; });
+      mine.concat(shared).forEach(function (fig) { fig.hidden = false; });
 
-      for (var i = targets.length - 1; i >= 0; i--) {
-        gallery.insertBefore(targets[i], gallery.firstElementChild);
-      }
+      // The selected colourway leads, then whatever is shared.
+      var ordered = mine.concat(shared);
+      var moved = ordered.some(function (fig, i) { return figures[i] !== fig; });
+      ordered.forEach(function (fig) { gallery.appendChild(fig); });
+      others.forEach(function (fig) { gallery.appendChild(fig); });
+
+      if (!moved) return;
 
       // Re-trigger the fade so the swap reads as a change, not a flicker.
       gallery.classList.remove('is-swapping');
@@ -283,6 +295,8 @@
         if (label) label.textContent = btn.dataset.optionValue;
       });
 
+      showMediaFor(chosen);
+
       if (!match) return;
 
       var idField = $('[data-variant-id]', form);
@@ -290,8 +304,6 @@
 
       var price = $('[data-price]');
       if (price) price.textContent = match.price_formatted;
-
-      showMediaFor(match, chosen);
 
       var button = $('[data-add-to-cart]', form);
       if (!button) return;
