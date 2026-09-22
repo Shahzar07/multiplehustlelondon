@@ -199,6 +199,90 @@
 
   /* -------------------------------------------------------------- variants */
 
+  /* Which photograph belongs to which colourway: { mediaId: [colour, …] }.
+
+     Per media, in order:
+       1. The variants it is attached to in admin — authoritative when set.
+       2. Its filename, when that names one or more of the product's colours
+          ("shorts-grey-back.jpg" -> Grey Marl).
+       3. Its alt text, same rule, consulted only when the filename is silent.
+       4. Position — photographs naming no colour anywhere are dealt out, in
+          upload order, to the colours still without a photograph.
+     A photograph naming several colours (a group shot) belongs to each of
+     them. Anything still unresolved belongs to no colour and stays visible. */
+  var COLOR_SKIP_WORDS = ['off', 'light', 'dark', 'deep', 'pale', 'bright', 'neon', 'baby', 'hot', 'heather'];
+
+  function colorsNamedIn(text, colors) {
+    var hay = ' ' + String(text || '').toLowerCase().replace(/\.[a-z0-9]+$/, '').replace(/[^a-z0-9]+/g, ' ') + ' ';
+    var hits = [];
+    // Longest names first, and each match consumes the words it used, so
+    // "ice blue" is never also counted as "blue".
+    colors.slice().sort(function (a, b) { return b.length - a.length; }).forEach(function (color) {
+      var needle = ' ' + color.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim() + ' ';
+      if (needle.trim() && hay.indexOf(needle) !== -1) {
+        hits.push(color);
+        hay = hay.split(needle).join('  ');
+      }
+    });
+    // Then the distinctive word of a multi-word name: "grey" for "Grey Marl".
+    colors.forEach(function (color) {
+      if (hits.indexOf(color) !== -1) return;
+      var words = color.toLowerCase().split(/[^a-z0-9]+/);
+      if (words.length < 2) return;
+      words.some(function (word) {
+        if (word.length < 4 || COLOR_SKIP_WORDS.indexOf(word) !== -1) return false;
+        if (hay.indexOf(' ' + word + ' ') === -1) return false;
+        hits.push(color);
+        hay = hay.split(' ' + word + ' ').join('  ');
+        return true;
+      });
+    });
+    return hits;
+  }
+
+  function resolveMediaColors(figures, variants, optionPos) {
+    var colors = [];
+    variants.forEach(function (v) {
+      var c = v.options[optionPos];
+      if (c && colors.indexOf(c) === -1) colors.push(c);
+    });
+    var map = {};
+    if (colors.length < 2) return map;
+
+    function own(id, color) {
+      map[id] = map[id] || [];
+      if (map[id].indexOf(color) === -1) map[id].push(color);
+    }
+
+    var ids = figures.map(function (fig) { return fig.dataset.mediaId; });
+
+    variants.forEach(function (v) {
+      if (v.media_id && ids.indexOf(String(v.media_id)) !== -1) own(String(v.media_id), v.options[optionPos]);
+    });
+
+    var silent = [];
+    figures.forEach(function (fig) {
+      var id = fig.dataset.mediaId;
+      if (map[id]) return;
+      var hits = colorsNamedIn(fig.dataset.mediaFile, colors);
+      if (!hits.length) hits = colorsNamedIn(fig.dataset.mediaAlt, colors);
+      if (hits.length) hits.forEach(function (c) { own(id, c); });
+      else silent.push(id);
+    });
+
+    var owned = {};
+    Object.keys(map).forEach(function (id) { map[id].forEach(function (c) { owned[c] = true; }); });
+    var needy = colors.filter(function (c) { return !owned[c]; });
+    if (needy.length && silent.length) {
+      var per = Math.max(1, Math.floor(silent.length / needy.length));
+      var cursor = 0;
+      needy.forEach(function (c) {
+        for (var i = 0; i < per && cursor < silent.length; i++) own(silent[cursor++], c);
+      });
+    }
+    return map;
+  }
+
   function initProductForm() {
     var form = $('[data-product-form]');
     var dataEl = $('[data-variant-data]');
@@ -209,63 +293,58 @@
     if (!variants || !variants.length) return;
 
     var gallery = $('[data-product-gallery]');
+    var figures = gallery ? $$('.product__figure[data-media-id]', gallery) : [];
     var colorIndexEl = $('[data-color-option-index]');
     var colorIndex = colorIndexEl ? Number(colorIndexEl.textContent.trim()) : 0;
 
-    // { mediaId: colourName } — resolved at render time. Media absent from the
-    // map belong to no single colourway (a group shot, a packaging detail) and
-    // stay on show whatever is selected.
-    var mediaColors = {};
-    var mediaColorsEl = $('[data-media-colors]');
-    if (mediaColorsEl) {
-      try { mediaColors = JSON.parse(mediaColorsEl.textContent) || {}; } catch (e) { mediaColors = {}; }
-    }
+    // { mediaId: [colour, …] } — media absent from the map belong to no
+    // colourway (a size chart, a packaging detail) and stay on show whatever
+    // is selected.
+    var mediaColors = colorIndex > 0 ? resolveMediaColors(figures, variants, colorIndex - 1) : {};
 
-    /* Bring the shot for the chosen variant to the front of the gallery.
+    /* Show only the chosen colourway's photographs.
 
-       Prefer the media the merchant attached to the variant in admin. When
-       none is attached — which is the common case on this store — fall back to
-       the first media whose alt text names the chosen colour, so "White" still
-       lands on the white shot. Reordering rather than hiding keeps every image
-       reachable. */
-    /* Show the chosen colourway and hide the other colourways' shots.
-
-       Shots belonging to no single colour stay visible and keep their place, so
-       a campaign or packaging image is still reachable whatever is selected.
-       If nothing in the gallery is attributed to a colour there is nothing
-       trustworthy to switch to, and the gallery is left exactly as it is. */
+       Shots of other colourways are hidden; shots belonging to no colour stay
+       visible after the chosen colour's own. If the chosen colour has no shot
+       of its own there is nothing trustworthy to switch to, so the whole
+       gallery is shown rather than an empty or misleading one. */
     function showMediaFor(chosen) {
-      if (!gallery || colorIndex < 1) return;
-
-      var figures = $$('.product__figure', gallery);
-      if (figures.length < 2) return;
+      if (!gallery || colorIndex < 1 || figures.length < 2) return;
 
       var color = chosen[colorIndex - 1];
       if (!color) return;
 
       var mine = [];
-      var others = [];
       var shared = [];
+      var others = [];
 
       figures.forEach(function (fig) {
-        var owner = mediaColors[fig.dataset.mediaId];
-        if (!owner) shared.push(fig);
-        else if (owner === color) mine.push(fig);
+        var owners = mediaColors[fig.dataset.mediaId];
+        if (!owners) shared.push(fig);
+        else if (owners.indexOf(color) !== -1) mine.push(fig);
         else others.push(fig);
       });
 
-      if (!mine.length && !others.length) return;
+      if (!mine.length) {
+        mine = figures.slice();
+        shared = [];
+        others = [];
+      } else {
+        // Shots of this colour alone lead; group shots naming it follow.
+        mine = mine.filter(function (fig) { return mediaColors[fig.dataset.mediaId].length === 1; })
+          .concat(mine.filter(function (fig) { return mediaColors[fig.dataset.mediaId].length > 1; }));
+      }
 
-      others.forEach(function (fig) { fig.hidden = true; });
-      mine.concat(shared).forEach(function (fig) { fig.hidden = false; });
+      var visible = mine.concat(shared);
+      var current = $$('.product__figure:not([hidden])', gallery);
+      var changed = current.length !== visible.length ||
+        visible.some(function (fig, i) { return current[i] !== fig; });
 
-      // The selected colourway leads, then whatever is shared.
-      var ordered = mine.concat(shared);
-      var moved = ordered.some(function (fig, i) { return figures[i] !== fig; });
-      ordered.forEach(function (fig) { gallery.appendChild(fig); });
-      others.forEach(function (fig) { gallery.appendChild(fig); });
+      visible.forEach(function (fig) { fig.hidden = false; gallery.appendChild(fig); });
+      others.forEach(function (fig) { fig.hidden = true; gallery.appendChild(fig); });
+      gallery.setAttribute('data-visible', String(visible.length));
 
-      if (!moved) return;
+      if (!changed) return;
 
       // Re-trigger the fade so the swap reads as a change, not a flicker.
       gallery.classList.remove('is-swapping');
@@ -301,6 +380,16 @@
 
       var idField = $('[data-variant-id]', form);
       if (idField) idField.value = match.id;
+
+      // Keep ?variant= in the address bar so a shared or reloaded link opens
+      // on the same colour and size.
+      if (window.history && window.history.replaceState && !(window.Shopify && window.Shopify.designMode)) {
+        var url = new URL(window.location.href);
+        if (url.searchParams.get('variant') !== String(match.id)) {
+          url.searchParams.set('variant', match.id);
+          window.history.replaceState(window.history.state, '', url.toString());
+        }
+      }
 
       var price = $('[data-price]');
       if (price) price.textContent = match.price_formatted;

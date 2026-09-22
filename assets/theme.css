@@ -1412,9 +1412,12 @@ h1, h2, h3, h4, h5 {
 .product__figure:first-child { grid-column: 1 / -1; }
 
 /* A two-image gallery stacks full width — a half-width second frame would
-   leave a hole beside it. Three or more fall back to the 2-up mosaic. */
+   leave a hole beside it. Three or more fall back to the 2-up mosaic.
+   `data-visible` is set by the colour picker, which hides the other
+   colourways' figures, so :last-child no longer means "last on show". */
 @media (min-width: 700px) {
-  .product__gallery:has(> .product__figure:nth-child(2):last-child) {
+  .product__gallery:has(> .product__figure:nth-child(2):last-child),
+  .product__gallery[data-visible="2"] {
     grid-template-columns: minmax(0, 1fr);
   }
 }

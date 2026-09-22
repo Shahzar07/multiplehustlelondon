@@ -19,7 +19,8 @@
         {%- if product.media.size > 0 -%}
           {%- for media in product.media -%}
             <figure class="product__figure" data-media-id="{{ media.id }}"
-                    data-media-alt="{{ media.alt | default: product.title | downcase | escape }}">
+                    data-media-file="{{ media.preview_image.src | split: '?' | first | split: '/' | last | escape }}"
+                    data-media-alt="{{ media.alt | escape }}">
               <img src="{{ media | image_url: width: 1400 }}"
                    srcset="{{ media | image_url: width: 700 }} 700w, {{ media | image_url: width: 1400 }} 1400w"
                    sizes="(min-width: 1000px) 55vw, 100vw"
@@ -124,9 +125,9 @@
 </section>
 
 {%- comment -%}
-  Variant map for the option pickers — read by theme.js. `color_option_index`
-  lets the picker fall back to matching a media item by its alt text when the
-  merchant has not attached images to variants in admin.
+  Variant map for the option pickers — read by theme.js, which also works out
+  which photograph belongs to which colourway from each variant's attached
+  image, then the media filenames and alt text (see `resolveMediaColors`).
 {%- endcomment -%}
 {%- assign color_index = 0 -%}
 {%- for option in product.options_with_values -%}
@@ -134,12 +135,6 @@
   {%- if n == 'colour' or n == 'color' -%}{%- assign color_index = forloop.index -%}{%- endif -%}
 {%- endfor -%}
 <script type="application/json" data-color-option-index>{{ color_index }}</script>
-{%- comment -%}
-  Which photograph belongs to which colourway. Nothing on this store attaches
-  images to variants in admin, so this is resolved from filename, alt text and
-  upload order — see the snippet for the rules.
-{%- endcomment -%}
-<script type="application/json" data-media-colors>{% render 'variant-media-map', product: product %}</script>
 <script type="application/json" data-variant-data>
 [
   {%- for variant in product.variants -%}
