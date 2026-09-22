@@ -1,0 +1,61 @@
+<section class="section" aria-labelledby="testimonials-heading-{{ section.id }}">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__meta">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="section-head__title" id="testimonials-heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      </div>
+    </div>
+    <div class="testimonial-grid">
+      {%- if section.blocks.size == 0 -%}
+        {%- assign quotes = 'The MH London Hoodie is heavy — in a good way. You can feel the quality of the fabric immediately. It doesn’t lose shape after a wash. Proper investment piece.|I was skeptical about the ‘unisex’ fit, but the Multiple Hustles Shorts sit perfectly. Comfortable enough for the grind, sharp enough for the meet.|Quality speaks for itself. You can feel the intention in every detail. Delivery was faster than expected, too.' | split: '|' -%}
+        {%- assign authors = 'J.K., Verified|Sarah M., Verified Customer|David O., Verified Customer' | split: '|' -%}
+        {%- for quote in quotes -%}
+          <blockquote class="testimonial" data-reveal>
+            <div class="testimonial__stars" aria-label="5 out of 5 stars">
+              {%- for i in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}
+            </div>
+            <p class="testimonial__quote">{{ quote }}</p>
+            <cite class="testimonial__author">{{ authors[forloop.index0] }}</cite>
+          </blockquote>
+        {%- endfor -%}
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+        <blockquote class="testimonial" data-reveal {{ block.shopify_attributes }}>
+          <div class="testimonial__stars" aria-label="{{ 'sections.testimonials.stars' | t: count: block.settings.stars }}">
+            {%- for i in (1..block.settings.stars) -%}{% render 'icon', name: 'star' %}{%- endfor -%}
+          </div>
+          <p class="testimonial__quote">{{ block.settings.quote }}</p>
+          <cite class="testimonial__author">{{ block.settings.author }}</cite>
+        </blockquote>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Word of Mouth" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Testimonials" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial", "name": "Testimonial",
+      "settings": [
+        { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote" },
+        { "type": "text", "id": "author", "label": "Author", "default": "Verified Customer" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "testimonial", "settings": { "stars": 5, "author": "J.K., Verified", "quote": "The MH London Hoodie is heavy — in a good way. You can feel the quality of the fabric immediately. It doesn't lose shape after a wash. Proper investment piece." } },
+      { "type": "testimonial", "settings": { "stars": 5, "author": "Sarah M., Verified Customer", "quote": "I was skeptical about the 'unisex' fit, but the Multiple Hustles Shorts sit perfectly. Comfortable enough for the grind, sharp enough for the meet." } },
+      { "type": "testimonial", "settings": { "stars": 5, "author": "David O., Verified Customer", "quote": "Quality speaks for itself. You can feel the intention in every detail. Delivery was faster than expected, too." } }
+    ]
+  }
+}
+{% endschema %}

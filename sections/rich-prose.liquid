@@ -1,0 +1,22 @@
+{%- comment -%} Reading-width prose block with an optional pull quote. {%- endcomment -%}
+<section class="section">
+  <div class="container container--reading">
+    <div class="prose" data-reveal>
+      {%- if section.settings.pull_quote != blank -%}
+        <p class="pull-quote">{{ section.settings.pull_quote }}</p>
+      {%- endif -%}
+      {{ section.settings.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Prose",
+  "settings": [
+    { "type": "textarea", "id": "pull_quote", "label": "Pull quote" },
+    { "type": "richtext", "id": "content", "label": "Content" }
+  ],
+  "presets": [{ "name": "Prose" }]
+}
+{% endschema %}

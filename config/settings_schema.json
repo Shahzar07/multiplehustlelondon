@@ -1,0 +1,46 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Multiple Hustles LDN",
+    "theme_version": "1.0.0",
+    "theme_author": "Multiple Hustles LDN",
+    "theme_documentation_url": "https://github.com/Shahzar07/multiplehustlelondon",
+    "theme_support_url": "https://github.com/Shahzar07/multiplehustlelondon/issues"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" },
+      { "type": "text", "id": "logo_line_1", "label": "Logo line 1", "default": "Multiple Hustles" },
+      { "type": "text", "id": "logo_line_2", "label": "Logo line 2", "default": "London" }
+    ]
+  },
+  {
+    "name": "Colours",
+    "settings": [
+      { "type": "color", "id": "color_paper", "label": "Page ground", "default": "#fffdfa" },
+      { "type": "color", "id": "color_ink", "label": "Ink", "default": "#000000" },
+      { "type": "color", "id": "color_gold", "label": "Accent", "default": "#f0c417" },
+      { "type": "color", "id": "color_card", "label": "Card ground", "default": "#f8f8f8" }
+    ]
+  },
+  {
+    "name": "Shipping",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "In your store currency. Set 0 to disable the cart progress note.",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_instagram_handle", "label": "Instagram handle", "default": "@multiplehustlesldn" }
+    ]
+  }
+]

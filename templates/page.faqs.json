@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "eyebrow": "Help",
+        "title": "FAQs",
+        "text": "Shipping, sizing, drops and returns — the questions we get asked most."
+      }
+    },
+    "faqs": {
+      "type": "faq-accordion",
+      "blocks": {
+        "q1": {
+          "type": "faq",
+          "settings": {
+            "question": "Where do you ship?",
+            "answer": "<p>We ship globally. UK &amp; International shipping is available on all orders.</p>"
+          }
+        },
+        "q2": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "<p>UK: 2–5 working days | International: 5–10 working days. Please allow 24–48 hours for dispatch.</p>"
+          }
+        },
+        "q3": {
+          "type": "faq",
+          "settings": {
+            "question": "Are drops limited?",
+            "answer": "<p>Yes. We operate on a limited-drop model to maintain exclusivity. Once it's gone, it's gone.</p>"
+          }
+        },
+        "q4": {
+          "type": "faq",
+          "settings": {
+            "question": "How do the items fit?",
+            "answer": "<p>Our sizing is generally true to size with a relaxed, streetwear fit. For the shorts and hoodies, we recommend sticking to your usual size for a comfortable fit, or sizing up if you prefer an oversized look.</p>"
+          }
+        },
+        "q5": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I wash the printed items?",
+            "answer": "<p>Yes, but handle with care. We recommend washing inside out on a cold cycle and air drying. Do not iron directly over the print or logos to preserve the quality.</p>"
+          }
+        },
+        "q6": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I track my order?",
+            "answer": "<p>Once your order is dispatched, you will receive an email with a tracking number. You can use this link to monitor your package's journey to your doorstep.</p>"
+          }
+        },
+        "q7": {
+          "type": "faq",
+          "settings": {
+            "question": "What payment methods do you accept?",
+            "answer": "<p>We accept all major credit and debit cards (Visa, Mastercard, Amex), as well as PayPal and Apple Pay.</p>"
+          }
+        },
+        "q8": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I change my order after placing it?",
+            "answer": "<p>We process orders quickly to get them to you fast. If you need to make a change, please email us immediately. If the order has already been dispatched, we cannot make changes.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8"
+      ]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "faqs",
+    "newsletter"
+  ]
+}
