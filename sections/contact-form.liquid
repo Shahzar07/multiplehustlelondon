@@ -1,0 +1,94 @@
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <div data-reveal>
+        {%- form 'contact' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="form-note" data-state="success">{{ 'contact.form.success' | t }}</p>
+          {%- elsif form.errors -%}
+            <p class="form-note" data-state="error">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+
+          <div class="field">
+            <label for="contact-name">{{ 'contact.form.name' | t }}</label>
+            <input id="contact-name" name="contact[name]" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="contact-email">{{ 'contact.form.email' | t }}</label>
+            <input id="contact-email" name="contact[email]" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="contact-subject">{{ 'contact.form.subject' | t }}</label>
+            <select id="contact-subject" name="contact[subject]">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'subject' -%}
+                  <option value="{{ block.settings.label | escape }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</option>
+                {%- endif -%}
+              {%- endfor -%}
+            </select>
+          </div>
+          <div class="field">
+            <label for="contact-message">{{ 'contact.form.message' | t }}</label>
+            <textarea id="contact-message" name="contact[body]" required></textarea>
+          </div>
+          <button class="btn btn--full" type="submit">{{ 'contact.form.submit' | t }}</button>
+          <p class="form-note">{{ section.settings.note }}</p>
+        {%- endform -%}
+      </div>
+
+      <div data-reveal>
+        <div class="info-card">
+          <h3>{{ section.settings.aside_heading }}</h3>
+          <div class="footer__contact" style="margin-top:var(--space-4)">
+            <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
+            {%- if section.settings.phone != blank -%}
+              <a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a>
+            {%- endif -%}
+            {%- if section.settings.location != blank -%}<span>{{ section.settings.location }}</span>{%- endif -%}
+            {%- if settings.social_instagram != blank -%}
+              <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">{{ settings.social_instagram_handle }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if section.settings.hours != blank -%}
+          <div class="info-card" style="margin-top:var(--space-5)">
+            <h3>{{ section.settings.hours_heading }}</h3>
+            <div class="text-muted" style="margin-top:var(--space-3)">{{ section.settings.hours }}</div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.faq_url != blank -%}
+          <div class="info-card" style="margin-top:var(--space-5)">
+            <h3>{{ section.settings.faq_heading }}</h3>
+            <p class="text-muted" style="margin-block:var(--space-3) var(--space-5)">{{ section.settings.faq_text }}</p>
+            <a class="btn btn--outline" href="{{ section.settings.faq_url }}">{{ section.settings.faq_cta }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "settings": [
+    { "type": "text", "id": "note", "label": "Note", "default": "We reply to every message within one working day." },
+    { "type": "text", "id": "aside_heading", "label": "Contact card heading", "default": "Contact Info" },
+    { "type": "text", "id": "hours_heading", "label": "Hours card heading", "default": "Opening Hours" },
+    { "type": "text", "id": "faq_heading", "label": "FAQ card heading", "default": "Before you write" },
+    { "type": "text", "id": "faq_text", "label": "FAQ card text", "default": "Most questions about delivery, sizing and returns are already answered." },
+    { "type": "text", "id": "faq_cta", "label": "FAQ card button", "default": "Read the FAQs" },
+    { "type": "url", "id": "faq_url", "label": "FAQ card link" },
+    { "type": "text", "id": "phone", "label": "Phone", "default": "07932 089 884" },
+    { "type": "text", "id": "location", "label": "Location", "default": "London, UK" },
+    { "type": "richtext", "id": "hours", "label": "Hours" }
+  ],
+  "blocks": [
+    { "type": "subject", "name": "Subject option",
+      "settings": [ { "type": "text", "id": "label", "label": "Label", "default": "An order" } ] }
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}
