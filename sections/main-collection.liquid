@@ -1,0 +1,73 @@
+<section class="page-head">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
+      <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+      <span aria-hidden="true">/</span>
+      <a href="{{ routes.collections_url }}">{{ 'general.collections' | t }}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ collection.title }}</span>
+    </nav>
+    <p class="eyebrow">{{ 'general.collection' | t }}</p>
+    <h1 class="page-head__title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="lede rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    {%- if section.settings.show_filters and linklists[section.settings.filter_menu].links.size > 0 -%}
+      <div class="filter-pills">
+        <a class="filter-pill" href="{{ routes.all_products_collection_url }}"
+           aria-pressed="{% if collection.handle == 'all' %}true{% else %}false{% endif %}">{{ 'general.shop_all' | t }}</a>
+        {%- for link in linklists[section.settings.filter_menu].links -%}
+          <a class="filter-pill" href="{{ link.url }}"
+             aria-pressed="{% if link.object.handle == collection.handle %}true{% else %}false{% endif %}">{{ link.title }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="toolbar">
+      <p class="eyebrow">{{ 'collections.general.count' | t: count: collection.products_count }}</p>
+      <form method="get" class="select-wrap">
+        <label class="visually-hidden" for="sort-by">{{ 'collections.sorting.title' | t }}</label>
+        <select id="sort-by" name="sort_by" onchange="this.form.submit()">
+          {%- assign chosen = collection.sort_by | default: collection.default_sort_by -%}
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}" {% if option.value == chosen %}selected{% endif %}>{{ option.name }}</option>
+          {%- endfor -%}
+        </select>
+      </form>
+    </div>
+
+    {%- paginate collection.products by 24 -%}
+      <div class="product-grid">
+        {%- for product in collection.products -%}
+          {%- assign is_eager = false -%}
+          {%- if forloop.index <= 2 -%}{%- assign is_eager = true -%}{%- endif -%}
+          {% render 'product-card', product: product, eager: is_eager %}
+        {%- else -%}
+          <p class="text-muted">{{ 'collections.general.empty' | t }}</p>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">
+          {%- if paginate.previous -%}<a class="btn btn--outline btn--sm" href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>{%- endif -%}
+          {%- if paginate.next -%}<a class="btn btn--outline btn--sm" href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "checkbox", "id": "show_filters", "label": "Show category chips", "default": true },
+    { "type": "link_list", "id": "filter_menu", "label": "Chip menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

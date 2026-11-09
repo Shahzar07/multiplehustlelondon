@@ -1,0 +1,22 @@
+<section class="page-head">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb' | t }}">
+      <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+      <span aria-hidden="true">/</span>
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+    </nav>
+    <h1 class="page-head__title">{{ article.title }}</h1>
+    <p class="eyebrow">{{ article.published_at | date: '%d %B %Y' }}</p>
+  </div>
+</section>
+<section class="section section--tight">
+  <div class="container">
+    {%- if article.image -%}
+      <img src="{{ article.image | image_url: width: 1400 }}" alt="{{ article.image.alt | escape }}" width="1400" height="933" style="width:100%;height:auto;border-radius:var(--radius-block)">
+    {%- endif -%}
+    <div class="rte page-content">{{ article.content }}</div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Article" }
+{% endschema %}

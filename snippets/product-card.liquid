@@ -1,0 +1,108 @@
+{%- comment -%}
+  Product card — the white-tile grid from the client's dreamisfree reference.
+  Accepts: product (required), eager (bool, for above-the-fold images).
+{%- endcomment -%}
+{%- assign media_front = product.featured_media -%}
+{%- assign media_back = product.media[1] | default: media_front -%}
+{%- assign loading = 'lazy' -%}
+{%- if eager -%}{%- assign loading = 'eager' -%}{%- endif -%}
+
+<article class="product-card" data-reveal>
+  <div class="product-card__media">
+    {%- unless product.available -%}
+      <span class="product-card__badge product-card__badge--out">{{ 'products.product.sold_out' | t }}</span>
+    {%- else -%}
+      {%- if product.compare_at_price > product.price -%}
+        <span class="product-card__badge product-card__badge--gold">{{ 'products.product.on_sale' | t }}</span>
+      {%- elsif product.tags contains 'new' -%}
+        <span class="product-card__badge">{{ 'products.product.new_arrival' | t }}</span>
+      {%- endif -%}
+    {%- endunless -%}
+
+    {%- if media_front -%}
+      <img src="{{ media_front | image_url: width: 1000 }}"
+           srcset="{{ media_front | image_url: width: 500 }} 500w, {{ media_front | image_url: width: 1000 }} 1000w"
+           sizes="(min-width: 990px) 25vw, 50vw"
+           alt="{{ media_front.alt | default: product.title | escape }}"
+           data-card-front data-title="{{ product.title | escape }}"
+           loading="{{ loading }}" width="1000" height="1250">
+      <img src="{{ media_back | image_url: width: 1000 }}" alt="" aria-hidden="true"
+           data-card-back loading="lazy" width="1000" height="1250">
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+    {%- endif -%}
+
+    {%- if product.available -%}
+      <div class="product-card__quick">
+        <form method="post" action="{{ routes.cart_add_url }}" data-quick-add>
+          <input type="hidden" name="form_type" value="product">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-quick-add-id>
+          <input type="hidden" name="quantity" value="1">
+          <button class="btn btn--light btn--sm btn--full" type="submit">{{ 'products.product.quick_add' | t }}</button>
+        </form>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <h3 class="product-card__title">
+    <a href="{{ product.url }}">{{ product.title }}</a>
+  </h3>
+
+  <div class="product-card__meta">
+    {%- if product.compare_at_price > product.price -%}
+      <span class="product-card__price product-card__price--was">{{ product.compare_at_price | money }}</span>
+    {%- endif -%}
+    <span class="product-card__price">{{ product.price | money }}</span>
+  </div>
+
+  {%- comment -%}
+    Swatches from a Colour/Color option. Real buttons, not decoration: picking
+    one swaps the card's photograph to that colourway and points Quick add at
+    the matching variant, so the grid behaves the same way the product page does.
+  {%- endcomment -%}
+  {%- for option in product.options_with_values -%}
+    {%- assign name_down = option.name | downcase -%}
+    {%- if name_down == 'colour' or name_down == 'color' -%}
+      {%- if option.values.size > 1 -%}
+        <div class="product-card__swatches" role="group" aria-label="{{ option.name | escape }}">
+          {%- for value in option.values -%}
+            {%- capture value_name -%}{{ value }}{%- endcapture -%}
+            {%- liquid
+              assign swatch_variant = false
+              for variant in product.variants
+                if variant.options contains value_name
+                  assign swatch_variant = variant
+                  break
+                endif
+              endfor
+
+              assign swatch_image = ''
+              if swatch_variant and swatch_variant.featured_image
+                assign swatch_image = swatch_variant.featured_image | image_url: width: 1000
+              else
+                # No image attached to the variant in admin: take the first
+                # photograph whose filename or alt text names this colour.
+                assign needle = value_name | downcase
+                for media in product.media
+                  assign media_file = media.preview_image.src | split: '?' | first | split: '/' | last | downcase | replace: '-', ' ' | replace: '_', ' '
+                  assign media_alt = media.alt | default: '' | downcase
+                  if media_file contains needle or media_alt contains needle
+                    assign swatch_image = media | image_url: width: 1000
+                    break
+                  endif
+                endfor
+              endif
+            -%}
+            <button class="product-card__swatch" type="button"
+                    style="{% render 'color-swatch-style', value: value, product: product %}"
+                    data-card-swatch="{{ value | escape }}"
+                    {% if swatch_image != blank %}data-front="{{ swatch_image }}"{% endif %}
+                    {% if swatch_variant %}data-variant-id="{{ swatch_variant.id }}"{% endif %}
+                    aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                    aria-label="{{ value | escape }}" title="{{ value | escape }}"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+</article>

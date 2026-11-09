@@ -1,0 +1,33 @@
+<section class="section section--tight">
+  <div class="container container--reading">
+    <div class="accordion" data-reveal>
+      {%- for block in section.blocks -%}
+        <div class="accordion__item" {{ block.shopify_attributes }}>
+          <button class="accordion__trigger" type="button" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+            {{ block.settings.question }}<span class="accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="accordion__panel">
+            <div class="rte">{{ block.settings.answer }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ accordion",
+  "max_blocks": 24,
+  "blocks": [
+    {
+      "type": "faq", "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FAQ accordion" }]
+}
+{% endschema %}

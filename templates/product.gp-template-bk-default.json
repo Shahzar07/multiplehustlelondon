@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "shipping": {
+          "type": "details",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "content": "<p>Dispatched within 24–48 hours. Free UK shipping over £100. 14-day returns on unworn items with tags intact.</p>"
+          }
+        },
+        "care": {
+          "type": "details",
+          "settings": {
+            "heading": "Care",
+            "content": "<p>Wash inside out on a cold cycle and air dry. Do not iron directly over the print or logos — it preserves the finish.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "shipping",
+        "care"
+      ],
+      "settings": {}
+    },
+    "related": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Complete the look",
+        "heading": "You may also like",
+        "count": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related"
+  ]
+}
