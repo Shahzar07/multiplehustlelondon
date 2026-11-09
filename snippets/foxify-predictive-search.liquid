@@ -51,8 +51,7 @@ assign prefix_class = PREFIX_CLASS | default: 'f:'
         <input type="hidden" name="options[prefix]" value="last">
         <div class="{{ prefix_class }}predictive-search__field">
           <input id="XSearchInput-{{ section_id }}"
-            class="{{ prefix_class }}predictive-search__input {{ prefix_class }}form-control" type="search" name="q" {%
-            if context=='page' %} value="{{ search.terms | escape }}" {% endif %}
+            class="{{ prefix_class }}predictive-search__input {{ prefix_class }}form-control" type="search" name="q" {% if context.page %} value="{{ search.terms | escape }}" {% endif %}
             placeholder="{{ translation.templates.search.search_placeholder | default: 'Search' }}" role="combobox"
             aria-expanded="false" aria-owns="{{ prefix_class }}search-results"
             aria-controls="{{ prefix_class }}predictive-search-results" aria-haspopup="listbox" aria-autocomplete="list"
@@ -262,4 +261,15 @@ assign prefix_class = PREFIX_CLASS | default: 'f:'
       </div>
     </div>
   </div>
-</{{ element_key }}-predictive-search>
+</{{ element_key }}-predictive-search>{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%
+                if context=='page' %}
+  to: "{% if context.page %}"
+  position: 3099..3120
+{%- endcomment -%}
